@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 
-export const index = () => {
+export const Index = () => {
   return (
     <>
       <h1>product page</h1>
@@ -9,4 +9,4 @@ export const index = () => {
   );
 };
 
-export default index;
+export default Index;

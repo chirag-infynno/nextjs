@@ -1,14 +1,19 @@
 import axios from "axios";
 import React from "react";
+import { useRouter } from "next/router";
+const Index = ({ user }) => {
+  // const
+  const router = useRouter();
 
-const index = ({ user }) => {
   console.log(user);
   return (
     <>
       {user.map((data) => (
         <>
           &nbsp; <span> {data.id}</span> &nbsp;
-          <spna>{data.title}</spna>
+          <spna onClick={() => router.push(`prerendering/${data.id}`)}>
+            {data.title}
+          </spna>
           <br></br>
         </>
       ))}
@@ -26,4 +31,4 @@ export async function getStaticProps() {
   };
 }
 
-export default index;
+export default Index;
