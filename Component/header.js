@@ -5,8 +5,7 @@ import Image from "next/image";
 export const HeaderComponent = () => {
   return (
     <>
-      <div className="  flex  justify-between items-center border-b-[2px] max-w-[1440px]  border-[#E4E4EB] h-[68px]  whitespace-nowrap px-[60px]">
-        {/* <div className="flex gap-[301px]"> */}
+      <div className="  flex   justify-between items-center border-b-[2px] max-w-[1440px]  border-[#E4E4EB] h-[68px]  whitespace-nowrap px-[60px]">
         <div className="flex gap-[36px]">
           <span className="cursor-pointer uppercase text-[#28293D] leading-[20px] text-[12px] Poppins font-bold">
             How it works
@@ -44,7 +43,6 @@ export const HeaderComponent = () => {
             </div>
           </div>
         </div>
-        {/* </div> */}
       </div>
       <div className="bg-yellow-600 min-w-[1440px]"></div>
     </>
