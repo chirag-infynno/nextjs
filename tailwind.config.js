@@ -10,6 +10,9 @@ module.exports = {
       lg: "980px",
     },
     extend: {
+      fontFamily: {
+        Titan: ["Shadows Into Light"],
+      },
       dropShadow: {
         textShadow: "0px 2px 4px rgba(0, 0, 0, 0.13)",
       },

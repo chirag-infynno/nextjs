@@ -8,10 +8,15 @@ export default function FooterComponent() {
         <section className=" flex  bg-[#28293D] text-white sm:flex-row  px-[60px]  justify-between pt-[60px] pb-[36px]   xs:flex-col  gap-[42px]">
           <div className="flex flex-col sm:items-start gap-[24px]    xs: items-center">
             <div className="">
-              <Image src="/autodigg_footer.png" height={36} width={132} />
+              <Image
+                src="/autodigg_footer.png"
+                height={36}
+                width={132}
+                alt="autodigg image"
+              />
             </div>
-            <div className="w-[424px]   h-[72px] xs:text-center sm:text-left">
-              <span className="text-[#8F90A6] h-[72px] xs:text-center">
+            <div className="h-[72px]  w-[424px]  sm:text-left  xs:w-[328px] ext-center  ">
+              <span className="text-[#8F90A6]   ">
                 Amet minim mollit non deserunt ullamco est sit aliqua dolor do
                 amet sint. Velit officia consequat duis enim velit mollit.
                 Exercitation veniam consequat sunt nostrud amet.
@@ -20,9 +25,25 @@ export default function FooterComponent() {
           </div>
           <div className="flex flex-col gap-[74px] whitespace-nowrap ">
             <aside className="flex  sm:justify-end text-white  items-center gap-[36px]   xs:justify-center">
-              <Image src="/facebook (2).png" height={24} width={24} />
-              <Image src="/twitter.png" height={24} width={24} />
-              <Image src="/insta.png" height={24} width={24} />
+              <Image
+                src="/facebook (2).png"
+                height={24}
+                width={24}
+                property
+                alt="Facebook icon"
+              />
+              <Image
+                src="/twitter.png"
+                height={24}
+                width={24}
+                alt="twitter image "
+              />
+              <Image
+                src="/insta.png"
+                height={24}
+                width={24}
+                alt="insta image "
+              />
             </aside>
             <aside className="flex sm:flex-row text-white  items-center gap-[30px] xs:flex-col  ">
               <span className="text-white Poppins text-[14px] ">

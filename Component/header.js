@@ -5,7 +5,7 @@ import Image from "next/image";
 export const HeaderComponent = () => {
   return (
     <>
-      <div className="  flex   justify-between items-center border-b-[2px] max-w-[1440px]  border-[#E4E4EB] h-[68px]  whitespace-nowrap px-[60px]">
+      <div className="  flex   justify-between items-center border-b-[2px] max-w-[1440px]  border-[#E4E4EB] h-[68px]  whitespace-nowrap px-[60px] bg-white">
         <div className="flex gap-[36px]">
           <span className="cursor-pointer uppercase text-[#28293D] font-bold leading-[20px] text-[12px] Poppins font-bold">
             How it works
@@ -32,12 +32,12 @@ export const HeaderComponent = () => {
             <div className="flex gap-[4px] justify-center items-center border-b-4 border-[#FF6B00]">
               {/* <Image src="/car.png" width={24} height={5} priority alt="not " /> */}
               <img src="/car.png" className="w-[18px] h-[20px]" />
-              <span className="text-[#FF6B00] uppercase font-bold">
+              <span className="text-[#FF6B00] uppercase font-bold text-[12px]">
                 Used cars for sale
               </span>
             </div>
             <div className="flex  bg-[#28293D] rounded-[13px]">
-              <span className="text-white py-[8px] px-[20px] uppercase">
+              <span className="text-white py-[8px] px-[20px] uppercase text-[12px] leading-[20px]">
                 Sign in/ Register
               </span>
             </div>
