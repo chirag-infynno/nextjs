@@ -4,7 +4,7 @@ import "../styles/globals.css";
 function MyApp({ Component, pageProps }) {
   return (
     <>
-      <div className="max-w-[1440px] mx-auto">
+      <div className="max-w-[1440px] mx-auto bg-[#FAFAFC]">
         <HeadComponent />
 
         <Component {...pageProps} />

@@ -6,12 +6,12 @@ export default function FooterComponent() {
     <>
       <footer className="">
         <section className=" flex  bg-[#28293D] text-white sm:flex-row  px-[60px]  justify-between pt-[60px] pb-[36px]   xs:flex-col  gap-[42px]">
-          <div className="flex flex-col gap-[24px] xs:items-center">
+          <div className="flex flex-col sm:items-start gap-[24px]    xs: items-center">
             <div className="">
               <Image src="/autodigg_footer.png" height={36} width={132} />
             </div>
-            <div className="max-w-[424px] text-center  h-[72px]">
-              <span className="text-[#8F90A6] h-[72px] text-center">
+            <div className="w-[424px]   h-[72px] xs:text-center sm:text-left">
+              <span className="text-[#8F90A6] h-[72px] xs:text-center">
                 Amet minim mollit non deserunt ullamco est sit aliqua dolor do
                 amet sint. Velit officia consequat duis enim velit mollit.
                 Exercitation veniam consequat sunt nostrud amet.
@@ -48,8 +48,8 @@ export default function FooterComponent() {
               </span>
             </aside>
             <aside className="flex gap-[32px]">
-              <span className="text-white font-[10px]">Terms of Service </span>
-              <span className="text-white font-[10px]">Privacy Policy </span>
+              <span className="text-white text-[10px]">Terms of Service </span>
+              <span className="text-white text-[10px]">Privacy Policy </span>
             </aside>
           </section>
         </section>

@@ -9,7 +9,16 @@ module.exports = {
       md: "724px",
       lg: "980px",
     },
-    extend: {},
+    extend: {
+      dropShadow: {
+        textShadow: "0px 2px 4px rgba(0, 0, 0, 0.13)",
+      },
+      boxShadow: {
+        btnShadow: " 0px 8px 16px -6px rgba(254, 110, 6, 0.46)",
+        cardShadow:
+          " 0px 2px 8px rgba(40, 41, 61, 0.04), 0px 16px 24px rgba(96, 97, 112, 0.16)",
+      },
+    },
   },
   plugins: [],
 };

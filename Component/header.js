@@ -7,10 +7,10 @@ export const HeaderComponent = () => {
     <>
       <div className="  flex   justify-between items-center border-b-[2px] max-w-[1440px]  border-[#E4E4EB] h-[68px]  whitespace-nowrap px-[60px]">
         <div className="flex gap-[36px]">
-          <span className="cursor-pointer uppercase text-[#28293D] leading-[20px] text-[12px] Poppins font-bold">
+          <span className="cursor-pointer uppercase text-[#28293D] font-bold leading-[20px] text-[12px] Poppins font-bold">
             How it works
           </span>
-          <span className="uppercase text-[#28293D] leading-[20px] text-[12px] Poppins font-bold">
+          <span className="uppercase text-[#28293D] leading-[20px] text-[12px] Poppins  font-bold">
             Why us
           </span>
           <span className="uppercase text-[#28293D] leading-[20px] text-[12px] Poppins font-bold">
