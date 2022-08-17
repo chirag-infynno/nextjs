@@ -7,8 +7,59 @@ import styles from "../styles/Home.module.css";
 import { AiOutlineFilter } from "react-icons/ai";
 import { Filterbar } from "../Component/Filterbar";
 import { Sidebar } from "../Component/Sidebar";
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+import Slider, { Range } from "rc-slider";
+import "rc-slider/assets/index.css";
 
+import { Listbox, Transition } from "@headlessui/react";
+import { data } from "autoprefixer";
+const people = [
+  "Wade Cooper",
+  "Arlene Mccoy",
+  "Devon Webb",
+  "Tom Cook",
+  "Tanya Fox",
+  "Hellen Schmidt",
+  "Caroline Schultz",
+  "Mason Heaney",
+  "Claudie Smitham",
+  "Emil Schaefer",
+];
 export default function Home() {
+  const [cookies, setCookie, removeCookie] = useCookies();
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedPersons, setSelectedPersons] = useState([]);
+
+  function isSelected(value) {
+    return selectedPersons.find((el) => el === value) ? true : false;
+  }
+
+  function handleSelect(value) {
+    console.log("value", value);
+    if (!isSelected(value)) {
+      // console.log(isSelected(value));
+      const selectedPersonsUpdated = [
+        ...selectedPersons,
+        people.find((el) => el === value),
+      ];
+      setSelectedPersons(selectedPersonsUpdated);
+    } else {
+      handleDeselect(value);
+    }
+    setIsOpen(true);
+  }
+
+  function handleDeselect(value) {
+    const selectedPersonsUpdated = selectedPersons.filter((el) => el !== value);
+    setSelectedPersons(selectedPersonsUpdated);
+    setIsOpen(true);
+  }
+  useEffect(() => {
+    setCookie("Name", "chirag");
+    removeCookie("Name");
+  }, []);
+
   return (
     <>
       <HeaderComponent />
@@ -26,13 +77,9 @@ export default function Home() {
           <AiOutlineFilter size={25} className="text-white" />
         </div>
       </div>{" "}
-      <section className="flex flex-row gap-[24px] bg-[#FAFAFC] sm:mx-[60px] xs:mx-[16px]">
-        {/* <div> */}
+      <section className="flex flex-row gap-[24px]  sm:mx-[60px]   xs:mx-[16px]">
         <Filterbar />
-        {/* </div> */}
-        {/* <aside> */}
         <Sidebar />
-        {/* </aside> */}
       </section>
       <FooterComponent />
     </>

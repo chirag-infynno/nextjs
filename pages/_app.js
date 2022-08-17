@@ -1,13 +1,17 @@
 import { HeadComponent } from "../Component/head";
 import "../styles/globals.css";
+import { CookiesProvider } from "react-cookie";
+import { useCookies } from "react-cookie";
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
       <div className="max-w-[1440px] mx-auto bg-[#FAFAFC]">
-        <HeadComponent />
+        <CookiesProvider>
+          <HeadComponent />
 
-        <Component {...pageProps} />
+          <Component {...pageProps} />
+        </CookiesProvider>
       </div>
     </>
   );
