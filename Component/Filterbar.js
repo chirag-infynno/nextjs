@@ -1,6 +1,9 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
+import { BsChevronDown } from "react-icons/bs";
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
 const people = [
   "Wade Cooper",
   "Arlene Mccoy",
@@ -14,7 +17,11 @@ const people = [
   "Emil Schaefer",
 ];
 
-export function Filterbar() {
+export function FilterBar() {
+  const [multiRange, setMultiRange] = useState([0, 100000]);
+  const [multiRangeModel, setMultiRangeModel] = useState([2000, 2010]);
+  const [multiRangeMileage, setMultiRangeMileage] = useState([1, 30]);
+
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPersons, setSelectedPersons] = useState([]);
 
@@ -65,7 +72,7 @@ export function Filterbar() {
 
         <section className="mt-[18px] w-[100%] h-[1px] bg-[#E4E4EB]"></section>
         <section className="mt-[16px] flex flex-col gap-[8px]">
-          <span className="text-[#8F90A6] text-[12px] leading-[16px]">
+          <span className=" text-[12px] leading-[16px] font-[600] text-[#8F90A6] uppercase">
             your zip
           </span>
           <div className="flex  rounded-[10px] border-[1px] border-[#E4E4EB] ">
@@ -84,7 +91,7 @@ export function Filterbar() {
 
         <section className="mt-[20px] flex flex-col gap-[11px]">
           <div className="flex justify-between  items-center">
-            <span className="text-[12px] leading-[16px text-[#8F90A6] uppercase">
+            <span className="text-[12px] leading-[16px text-[#8F90A6] uppercase font-[600]">
               Search within
             </span>
             <spna className="text-[16px] leading-[24px] font-bold">
@@ -177,8 +184,143 @@ export function Filterbar() {
           </div>
         </div>
 
-        <se></se>
+        <section className="flex flex-col gap-[14px]">
+          <aside className="uppercase">model</aside>
+          <section className="flex items-center justify-start gap-[10px]">
+            <input type="checkbox" />
+            <label className="uppercase">ILX (7)</label>
+          </section>
+          <aside className=" flex items-center gap-[5px]">
+            <span className="text-[#FF8800]">Show More</span>
+            <aside className="flex items-center">
+              <BsChevronDown className="text-[#FF8800]" />
+            </aside>
+          </aside>
+        </section>
+        <div className="w-[100%] h-[1px] bg-[#E4E4EB] my-[16px]" />
+
+        <section className="bodytype flex flex-col gap-[14px]">
+          <span className="uppercase  text-[12px] leading-[16px] font-[600] text-[#8F90A6]">
+            body type
+          </span>
+          <div className="checkbox-bodytype flex gap-[10px]">
+            <input type="checkbox" />
+            <label className="text-[14px] leading-[20px] font-[500]">
+              Sedan (12)
+            </label>
+          </div>
+        </section>
+        <div className="line my-[16px] w-[100%] h-[1px] bg-[#E4E4EB]" />
+        <section className="range flex flex-col gap-[16px]">
+          <section className="price-range flex flex-col gap-[15px]">
+            <div className="flex justify-between items-center">
+              <span className="text-[12px] leading-[16px] text-[#8F90A6]  font-[600] uppercase">
+                Price
+              </span>
+              <span className="text-[16px] leading-[24px]  text-[#28293D] font-[600]">
+                {multiRange[0] == 0 &&
+                multiRange[multiRange.length - 1] == 100000
+                  ? `Any`
+                  : `${multiRange[0]}-${multiRange[multiRange.length - 1]}`}
+
+                {/* } */}
+              </span>
+            </div>
+            <div>
+              <Slider
+                range
+                color="red"
+                inverted={false}
+                allowCross={false}
+                min={0}
+                max={100000}
+                onChange={(e) => setMultiRange(e)}
+                defaultValue={multiRange}
+              />
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-[16px] leading-[16px] text-[#28293D]   font-[600] uppercase">
+                $0
+              </span>
+              <span className="text-[16px] leading-[24px]  text-[#28293D] font-[600]">
+                $100,000
+              </span>
+            </div>
+          </section>
+          <div className="w-[100%] h-[1px] bg-[#E4E4EB] "></div>{" "}
+          <section className="modal-range flex flex-col gap-[15px]">
+            <div className="flex justify-between items-center">
+              <span className="text-[12px] leading-[16px] text-[#8F90A6]  font-[600] uppercase">
+                Make Year
+              </span>
+              <span className="text-[16px] leading-[24px]  text-[#28293D] font-[600]">
+                {multiRangeModel[0] == 1990 &&
+                multiRangeModel[multiRangeModel.length - 1] == 2021
+                  ? `Any`
+                  : `${multiRangeModel[0]}-${
+                      multiRangeModel[multiRangeModel.length - 1]
+                    }`}
+              </span>
+            </div>
+            <div>
+              <Slider
+                range
+                inverted={false}
+                allowCross={true}
+                min={1990}
+                max={2021}
+                onChange={(e) => setMultiRangeModel(e)}
+                defaultValue={multiRangeModel}
+              />
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-[16px] leading-[16px] text-[#28293D]   font-[600] uppercase">
+                1990
+              </span>
+              <span className="text-[16px] leading-[24px]  text-[#28293D] font-[600]">
+                2021
+              </span>
+            </div>
+          </section>
+          <div className="w-[100%] h-[1px] bg-[#E4E4EB] "></div>{" "}
+          <section className="milage-range flex flex-col gap-[15px]">
+            <div className="flex justify-between items-center">
+              <span className="text-[12px] leading-[16px] text-[#8F90A6]  font-[600] uppercase">
+                Mileage
+              </span>
+              <span className="text-[16px] leading-[24px]  text-[#28293D] font-[600]">
+                {multiRangeMileage[0] == 1 &&
+                multiRangeMileage[multiRangeMileage.length - 1] == 30
+                  ? `Any`
+                  : `${multiRangeMileage[0]}-${
+                      multiRangeMileage[multiRangeMileage.length - 1]
+                    }`}
+              </span>
+            </div>
+            <div>
+              <Slider
+                range
+                inverted={false}
+                allowCross={true}
+                min={1}
+                max={30}
+                onChange={(e) => setMultiRangeMileage(e)}
+                defaultValue={multiRangeMileage}
+              />
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-[16px] leading-[16px] text-[#28293D]   font-[600] uppercase">
+                1
+              </span>
+              <span className="text-[16px] leading-[24px]  text-[#28293D] font-[600]">
+                Any
+              </span>
+            </div>
+          </section>
+        </section>
       </section>
+      <div className="line w-[100%] h-[2px] bg-[#E4E4EB] mt-[36px] mb-[10px]" />
+      <section className="style my-[16px] w-[100%]  "></section>
     </section>
   );
 }

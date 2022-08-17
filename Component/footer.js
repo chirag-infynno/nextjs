@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-export default function FooterComponent() {
+export function FooterComponent() {
   return (
     <>
       <footer className="">

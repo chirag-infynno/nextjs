@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
 
-export const HeadComponent = () => {
+const HeadComponent = () => {
   return (
     <>
       <Head>
@@ -13,4 +13,4 @@ export const HeadComponent = () => {
   );
 };
 
-// export  Head;
+export default HeadComponent;
