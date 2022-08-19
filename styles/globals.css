@@ -12,6 +12,11 @@ body {
 
  font-family: 'Poppins', sans-serif;
 }
+*{
+  padding: 0;
+  margin: 0;
+
+}
 
 
 /* background-color: linear-gradient(147.14deg, #FF8800 6.95%, #E63535 93.05%);; */

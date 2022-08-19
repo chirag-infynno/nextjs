@@ -8,6 +8,8 @@ function MyApp({ Component, pageProps }) {
     <>
       <div className="max-w-[1440px] mx-auto bg-[#FAFAFC]">
         {/* <CookiesProvider> */}
+
+        {/* <Hea */}
         <HeadComponent />
 
         <Component {...pageProps} />
