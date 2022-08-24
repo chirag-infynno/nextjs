@@ -60,11 +60,11 @@ export function FooterComponent() {
             </aside>
           </div>
         </section>
-
+        {/* font-weight: 400; font-size: 10px; line-height: 12px; */}
         <section className="text-white bg-[#1C1C28] px-[60px]">
           <section className="py-[24px] flex sm:flex-row justify-between xs:flex-col items-center gap[16px]">
             <aside>
-              <span className="text-[#8F90A6] ">
+              <span className="text-[#8F90A6]  font-[400] text-[10px] leading-[12px]">
                 © AutoDigg 2021. All Rights Reserved.
               </span>
             </aside>

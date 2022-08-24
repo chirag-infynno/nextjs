@@ -44,9 +44,7 @@ export function FilterBar({
 
   const [showmore, setShowmore] = useState(false);
 
-  const changeModel = (e) => {
-    // console.log(e, "event");
-  };
+  const changeModel = (e) => {};
 
   const changeshowmore = () => {
     setShowmore(!showmore);
@@ -90,10 +88,7 @@ export function FilterBar({
     setIsOpen(true);
   }
 
-  useEffect(() => {
-    console.log("d", features);
-    console.log("datas", features["Technology Features"]);
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <section className=" w-[312px] border-[2px]  bg-white h-fit sm:block  xs:hidden pb-[16px]">

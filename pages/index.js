@@ -25,6 +25,7 @@ export default function Home({
   return (
     <>
       <HeaderComponent />
+      <section></section>
       <div className="  pt-[36px] pb-[26px] xs:flex justify-between items-start   sm:px-[60px]  xs:px-[16px] ">
         <div className="flex flex-col gap-[8px]   ">
           <spna className="text-[12px] text-[#212229] uppercase">
