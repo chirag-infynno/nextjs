@@ -8,7 +8,6 @@ import axios from "axios";
 import Slider, { Range } from "rc-slider";
 import "rc-slider/assets/index.css";
 import Dropdown from "./Dropdown";
-// import { ChevronDownIcon } from "@heroicons/react/solid";
 const people = [
   "Wade Cooper",
   "Arlene Mccoy",
@@ -41,8 +40,16 @@ export function FilterBar({
   const [multiRangeModel, setMultiRangeModel] = useState([2000, 2010]);
   const [multiRangeMileage, setMultiRangeMileage] = useState(30);
 
+  const [miles, setMiles] = useState(0);
+
+  const [showmore, setShowmore] = useState(false);
+
   const changeModel = (e) => {
     // console.log(e, "event");
+  };
+
+  const changeshowmore = () => {
+    setShowmore(!showmore);
   };
 
   const changeStyle = () => {
@@ -83,7 +90,10 @@ export function FilterBar({
     setIsOpen(true);
   }
 
-  useEffect(() => console.log("d", features), []);
+  useEffect(() => {
+    console.log("d", features);
+    console.log("datas", features["Technology Features"]);
+  }, []);
 
   return (
     <section className=" w-[312px] border-[2px]  bg-white h-fit sm:block  xs:hidden pb-[16px]">
@@ -130,13 +140,22 @@ export function FilterBar({
               Search within
             </span>
             <spna className="text-[16px] leading-[24px] font-bold">
-              100 miles
+              {miles} miles
             </spna>
           </div>
-          <input type="range" />
+          <div>
+            <Slider
+              inverted={false}
+              allowCross={true}
+              min={20}
+              max={500}
+              onChange={(e) => setMiles(e)}
+              defaultValue={miles}
+            />
+          </div>
           <div className="flex justify-between items-center">
             <span className="text-[12px] leading-[16px]  text-[#28293D] font-Poppins">
-              20 miles
+              1 miles
             </span>
             <span className="text-[12px] leading-[16px] text-[#28293D] font-Titan ">
               500 miles
@@ -188,11 +207,11 @@ export function FilterBar({
                         static
                         className="max-h-60 rounded-md py-1 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5"
                       >
-                        {people.map((person) => {
+                        {people.map((person, index) => {
                           const selected = isSelected(person);
 
                           return (
-                            <Listbox.Option key={person} value={person}>
+                            <Listbox.Option key={index} value={person}>
                               {({ active }) => (
                                 <div
                                   className={`${
@@ -222,21 +241,32 @@ export function FilterBar({
           </div>
         </div>
 
-        <section className="flex flex-col gap-[14px] h-[251px] overflow-hidden">
+        <section className={`flex flex-col gap-[14px]  overflow-hidden `}>
           <aside className="uppercase">model</aside>
-          {Object.keys(model).map((key, index) => {
-            return (
-              <>
-                <section className="flex items-center justify-start gap-[10px]">
+          <div
+            className={`${
+              showmore ? "h-auto" : "h-[211px]"
+            } flex flex-col gap-[14px]  overflow-hidden`}
+          >
+            {Object.keys(model).map((key, index) => {
+              return (
+                <section
+                  className="flex items-center justify-start gap-[10px]"
+                  key={index}
+                >
                   <input type="checkbox" name={key} onChange={changeModel} />
-                  <label className="uppercase">{`${key} (${model[key]})`}</label>
+                  <label className="uppercase">{`${key} (${model[key]})  `}</label>
                 </section>
-              </>
-            );
-          })}
-
-          <aside className=" flex items-center gap-[5px]">
-            <span className="text-[#FF8800]">Show More</span>
+              );
+            })}
+          </div>
+          <aside
+            className={` flex items-center gap-[5px] cursor-pointer  `}
+            onClick={changeshowmore}
+          >
+            <span className="text-[#FF8800]">
+              {showmore ? "Show Less" : "Show More"}
+            </span>
             <aside className="flex items-center">
               <BsChevronDown className="text-[#FF8800]" />
             </aside>
@@ -244,7 +274,7 @@ export function FilterBar({
         </section>
         <div className="w-[100%] h-[1px] bg-[#E4E4EB] my-[16px]" />
 
-        <div className="line my-[16px] w-[100%] h-[1px] bg-[#E4E4EB]" />
+        {/* <dciv className="line my-[16px] w-[100%] h-[1px] bg-[#E4E4EB]" /> */}
         <section className="range flex flex-col gap-[16px]">
           <section className="price-range flex flex-col gap-[15px]">
             <div className="flex justify-between items-center">
@@ -256,8 +286,6 @@ export function FilterBar({
                 multiRange[multiRange.length - 1] == 100000
                   ? `Any`
                   : `${multiRange[0]}-${multiRange[multiRange.length - 1]}`}
-
-                {/* } */}
               </span>
             </div>
             <div>
@@ -347,8 +375,8 @@ export function FilterBar({
           </section>
         </section>
       </section>
-      <div className="line w-[100%] h-[2px] bg-[#E4E4EB] mt-[36px] mb-[10px]" />
-      <section className="style my-[16px] w-[100%] px-[16px] ">
+      {/* <div className="line w-[100%] h-[2px] bg-[#E4E4EB] mt-[36px] mb-[10px]" /> */}
+      {/* <section className="style my-[16px] w-[100%] px-[16px] ">
         <div
           className="flex justify-between  items-center  w-[100%]  cursor-pointer"
           onClick={changeStyle}
@@ -423,7 +451,6 @@ export function FilterBar({
           </div>
         </div>
       </section>
-
       <div className="line w-[100%] h-[2px] bg-[#E4E4EB] mt-[16px] mb-[10px]" />
       <section className="Performance w-[100%]   my-[16px] px-[16px] ">
         <div
@@ -578,20 +605,40 @@ export function FilterBar({
           </div>
         </div>
       </section>
+      <div className="line w-[100%] h-[2px] bg-[#E4E4EB] mt-[16px] mb-[16px]" /> */}
       <div className="line w-[100%] h-[2px] bg-[#E4E4EB] mt-[16px] mb-[16px]" />
 
       <Dropdown
         apidata={["BODY STYLE", "EXTERIOR COLOR", "INTERIOR COLOR"]}
         bodydata={[bodytype, exteriorcolor, interiorcolor]}
         name={"Style"}
+        key={1}
       />
       <div className="line w-[100%] h-[2px] bg-[#E4E4EB] mt-[16px] mb-[16px]" />
-
       <Dropdown
         apidata={["TRANSMISSION", "DRIVE TRAIN", "FUEL TYPE"]}
         bodydata={[transmission, drivetrain, fueltype]}
         name={"Performance"}
       />
+      <div className="line w-[100%] h-[2px] bg-[#E4E4EB] mt-[16px] mb-[16px]" />
+      <Dropdown
+        apidata={[
+          "INTERIOR FEATURES",
+          "TECHNOLOGY FEATURES",
+          "SAFETY FEATURES",
+          "EXTERIOR FEATURES",
+          "Other",
+        ]}
+        bodydata={[
+          features["Interior Features"],
+          features["Technology Features"],
+          features["Safety Features"],
+          features["Exterior Features"],
+          features["Others"],
+        ]}
+        name={"Feature"}
+      />
+      {/* INTERIOR FEATURES */}
     </section>
   );
 }

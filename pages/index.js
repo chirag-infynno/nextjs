@@ -105,8 +105,6 @@ export async function getStaticProps() {
     "https://autodigg.com/ad-api/cars/list?body_type=&make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=features";
   const fetRes = await axios.get(featuresUrl);
   const features = fetRes.data;
-
-  //autodigg.com/ad-api/cars/list?usedCar=false&car_type=Used+car,New+car,Certified+pre-owned&page=1&radius=100
   return {
     props: {
       totalcar: totalcarnumber.count,
