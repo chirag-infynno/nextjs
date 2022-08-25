@@ -64,7 +64,7 @@ export default function Home({
           <AiOutlineFilter size={25} className="text-white" />
         </div>
       </div>
-      <section className="flex flex-row gap-[24px]  sm:mx-[60px]  xs:mx-[16px]">
+      <section className="flex flex-row gap-[24px]  sm:mx-[60px]  xs:mx-[16px] ">
         <FilterBar
           model={model}
           bodytype={bodytype}

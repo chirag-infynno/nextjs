@@ -4,38 +4,43 @@ import Dropdown from "./Dropdown";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import ReactPaginate from "react-paginate";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { fetchCars } from "../redux/slice/homePageSlices";
+import {
+  fetchCars,
+  changePage,
+  changeCarApi,
+} from "../redux/slice/homePageSlices";
 
 export function Sidebar({ cardata }) {
   const router = useRouter();
 
   const dispatch = useDispatch();
-  // const [width, setWidth] = useState("");
 
-  const [currentItems, setCurrentItems] = useState(null);
-  const [pageCount, setPageCount] = useState(0);
-  const [itemOffset, setItemOffset] = useState(0);
+  const { totalpage, currentPage, loding } = useSelector(
+    (state) => state.homePageSlice
+  );
 
   const handlePageClick = (event) => {
     console.log("ivent", event.selected + 1);
 
-    dispatch(fetchCars(event.selected + 1));
+    dispatch(changePage(event.selected + 1));
+
+    dispatch(changeCarApi());
   };
   return (
     <>
-      <div className="flex flex-col gap-[24px] max-w-[984px]">
+      <div className="flex flex-col gap-[24px]  w-[100%]">
         {cardata.map((data, index) => (
           <section
-            className={`shadow-cardShadow  rounded-[10px]  sm:pb-[0px] xs:pb-[16px] bg-white`}
+            className={`shadow-cardShadow  rounded-[10px]  sm:pb-[0px] xs:pb-[16px] bg-white `}
             key={index}
           >
-            <section className="sm: max-w-[970px] ">
+            <section className=" ">
               <section className="flex  bg-white sm:flex-row gap-[24px] xs:flex-col  ">
                 <div className=" max-h-[254px] sm:w-[360px]  xs:w-[328px] ">
                   <Image
-                    src={data.photos[0]}
+                    src={data.photos ? data.photos[0] : "/notfind.png"}
                     width={360}
                     height={254}
                     className="rounded-tl-[10px] xs:max-w-[200px] sm:max-w-[100px]  cursor-pointer "
@@ -117,10 +122,12 @@ export function Sidebar({ cardata }) {
             previousLabel={" <"}
             nextLabel={" >"}
             breakLabel={"..."}
-            pageCount={64}
-            marginPagesDisplayed={1}
+            pageCount={totalpage}
+            marginPagesDisplayed={4}
             pageRangeDisplayed={5}
             onPageChange={handlePageClick}
+            // initialPage={currentPage}
+            // forcePage={currentPage}
             containerClassName={"flex gap-[8px] justify-center	 items-center"}
             pageClassName={
               "w-[36px] flex items-center justify-center h-[36px] text-[#555770] font-[500] text-[14px] bg-white border-[1px] border-solid border-[#E4E4EB] rounded-[6px]"

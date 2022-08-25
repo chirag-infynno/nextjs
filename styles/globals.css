@@ -57,9 +57,11 @@ a {
   box-shadow: 0px 3px 7px -1px rgba(254, 110, 6, 0.46) !important;
   border-radius: 20px !important;
 }
+
+
 .prev-btn.disabled,
 .next-btn.disabled {
-  background: #E63535;
+  background: #e4e4eb;
   border-radius: 6px;
   color: #8f90a6;
 }

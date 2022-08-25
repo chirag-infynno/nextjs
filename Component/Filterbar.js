@@ -3,17 +3,19 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Listbox, Transition, Menu } from "@headlessui/react";
 import { BsChevronDown } from "react-icons/bs";
 import { BiChevronDown } from "react-icons/bi";
-import axios from "axios";
-
-import { useSelector } from "react-redux";
-
+import {
+  changeCarApi,
+  newapi,
+  changeCarTypeState,
+  changeMakeData,
+} from "../redux/slice/homePageSlices";
+import { useDispatch, useSelector } from "react-redux";
 import Slider, { Range } from "rc-slider";
 import "rc-slider/assets/index.css";
 import Dropdown from "./Dropdown";
 
 export function FilterBar({
   user,
-  // modelbodytype,
   bodytype,
   exteriorcolor,
   interiorcolor,
@@ -24,6 +26,10 @@ export function FilterBar({
   features,
   make,
 }) {
+  const dispatch = useDispatch();
+  // const [carType, setCarType] = useState(["used+car"]);
+
+  const { carType } = useSelector((state) => state.homePageSlice);
   const people = Object.keys(make);
   const [styledropdown, setStleDropdown] = useState(false);
   const [performancedropdown, setPerformancedropdown] = useState(false);
@@ -42,35 +48,33 @@ export function FilterBar({
     setShowmore(!showmore);
   };
 
-  const changeStyle = () => {
-    setStleDropdown(!styledropdown);
-  };
-
-  const changeperformancedropdown = () => {
-    setPerformancedropdown(!performancedropdown);
-  };
-
-  const changefeaturedropdown = () => {
-    setFeaturedropdown(!featuredropdown);
-  };
-
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPersons, setSelectedPersons] = useState([]);
 
-  // const selctedpersondata = () => {};
+  const changeCartype = (e) => {
+    const type = [...carType];
 
+    e.target.checked
+      ? type.push(e.target.value)
+      : type.splice(type.indexOf(e.target.value), 1);
+    dispatch(changeCarTypeState(type));
+
+    dispatch(changeCarApi());
+  };
   function isSelected(value) {
     return selectedPersons.find((el) => el === value) ? true : false;
   }
 
   function handleSelect(value) {
     if (!isSelected(value)) {
-      console.log("value", value);
       const selectedPersonsUpdated = [
         ...selectedPersons,
         people.find((el) => el === value),
       ];
+
       setSelectedPersons(selectedPersonsUpdated);
+      dispatch(changeMakeData(selectedPersonsUpdated));
+      dispatch(changeCarApi());
     } else {
       handleDeselect(value);
     }
@@ -81,6 +85,8 @@ export function FilterBar({
     const selectedPersonsUpdated = selectedPersons.filter((el) => el !== value);
     console.log("new", selectedPersonsUpdated);
     setSelectedPersons(selectedPersonsUpdated);
+    dispatch(changeMakeData(selectedPersonsUpdated));
+    dispatch(changeCarApi());
     setIsOpen(true);
   }
 
@@ -101,18 +107,16 @@ export function FilterBar({
           <section className="flex  justify-start items-center gap-[10px]">
             <input
               type="checkbox"
-              onChange={(e) => {
-                console.log(e);
-              }}
-              className="accent-black"
+              onChange={changeCartype}
+              className="accent-black h-[20px] w-[20px]"
+              value="new+car"
             />
             <label className="text-[14px] leading-[20px]">New</label>{" "}
             <input
               type="checkbox"
-              onChange={(e) => {
-                console.log(e);
-              }}
-              className="accent-black"
+              onChange={changeCartype}
+              className="accent-black h-[20px] w-[20px]"
+              value="used+car"
               defaultChecked
             />
             <label className="text-[14px] leading-[20px]">Used</label>
@@ -188,7 +192,7 @@ export function FilterBar({
                       >
                         <span className="block truncate overflow-hidden">
                           {selectedPersons.length < 1
-                            ? "Select persons"
+                            ? "Select Make"
                             : selectedPersons.toString()}
                         </span>
 
