@@ -59,9 +59,12 @@ a {
 }
 .prev-btn.disabled,
 .next-btn.disabled {
-  background: #e4e4eb;
+  background: #E63535;
   border-radius: 6px;
   color: #8f90a6;
+}
+.flipswitch:checked{
+  color: #E63535 !important;
 }
 
 .prev-btn,
@@ -71,7 +74,7 @@ a {
   color: #ffffff;
 }
 
-image-gallery-svg {
+.image-gallery-svg {
   height: 21px !important;
   width: 12px !important;
 }

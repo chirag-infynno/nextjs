@@ -2,6 +2,7 @@ import HeadComponent from "../Component/Head";
 import "../styles/globals.css";
 // import { CookiesProvider } from "react-cookie";
 import { useCookies } from "react-cookie";
+import { wrapper } from "./../redux/store/store";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -19,4 +20,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);

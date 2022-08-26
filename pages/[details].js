@@ -306,7 +306,7 @@ const details = ({ cars }) => {
                 key={index}
                 className="font-[500] text-[#28293D] h-[20px] overflow-hidden text-[13px] leading-[20px] w-[360px]"
               >
-                {data.replace(/[\[\]'"*]+/g, "")}
+                {data.replace(/[\[\]"]+/g, "")}
               </p>
             );
           })}

@@ -3,24 +3,48 @@ import { HeaderComponent } from "../Component/Header";
 import { FooterComponent } from "../Component/Footer";
 import { FilterBar } from "../Component/Filterbar";
 import { Sidebar } from "../Component/Sidebar";
+import { useSelector } from "react-redux";
 
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { data } from "autoprefixer";
+import { wrapper } from "../redux/store/store";
+import {
+  getCars,
+  getTotalCarNumber,
+  getModel,
+  getBodyType,
+  getExteriorColor,
+  getInteriorColor,
+  getTransmission,
+  getDriveTrain,
+  getFuelType,
+  getFeatures,
+  getMake,
+} from "../redux/slice/homePageSlices";
 
 export default function Home({
   totalcar,
   cardata,
-  model,
-  bodytype,
-  exteriorcolor,
-  interiorcolor,
-  transmission,
-  drivetrain,
-  fueltype,
-  features,
+  // model,
+  // bodytype,
+  // exteriorcolor,
+  // interiorcolor,
+
+  // fueltype,
 }) {
-  // const [newmodel, setNewdata] = useState([]);
+  const { cars } = useSelector((state) => state.homePageSlice);
+  const { totalcarnumber } = useSelector((state) => state.homePageSlice);
+  const { model } = useSelector((state) => state.homePageSlice);
+  const { bodytype } = useSelector((state) => state.homePageSlice);
+  const { exteriorcolor } = useSelector((state) => state.homePageSlice);
+  const { interiorcolor } = useSelector((state) => state.homePageSlice);
+  const { transmission } = useSelector((state) => state.homePageSlice);
+  const { drivetrain } = useSelector((state) => state.homePageSlice);
+  const { fueltype } = useSelector((state) => state.homePageSlice);
+  const { features } = useSelector((state) => state.homePageSlice);
+  const { make } = useSelector((state) => state.homePageSlice);
+
   useEffect(() => {}, []);
   return (
     <>
@@ -32,14 +56,14 @@ export default function Home({
             Used cars for sale
           </spna>
           <h1 className="md:text-[32px]  leading-[44px] text-[#28293D] font-bold h-[44px] xs:text-[18ox] leading-[28px] text-[#28293D]">
-            Showing {totalcar} cars
+            Showing {totalcarnumber.toLocaleString("en-US")} cars
           </h1>
         </div>
 
         <div className="sm:hidden xs:d block bg-[#FF8800]   rounded-[10px] p-[10px] ">
           <AiOutlineFilter size={25} className="text-white" />
         </div>
-      </div>{" "}
+      </div>
       <section className="flex flex-row gap-[24px]  sm:mx-[60px]  xs:mx-[16px]">
         <FilterBar
           model={model}
@@ -50,74 +74,108 @@ export default function Home({
           drivetrain={drivetrain}
           fueltype={fueltype}
           features={features}
+          make={make}
         />
-        <Sidebar cardata={cardata} />
+        <Sidebar cardata={cars} />
       </section>
       <FooterComponent />
     </>
   );
 }
 
-export async function getStaticProps() {
-  const carnumberapi =
-    "https://autodigg.com/ad-api/cars/list?usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&return=count";
-  const totalcar = await axios.get(carnumberapi);
-  const totalcarnumber = totalcar.data;
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async () => {
+    const url =
+      "https://autodigg.com/ad-api/cars/list?usedCar=true&car_type=Used+car&page=1&radius=100";
+    const response = await axios.get(url);
+    const data = response.data;
 
-  const url =
-    "https://autodigg.com/ad-api/cars/list?usedCar=true&car_type=Used+car&page=1&radius=100";
-  const response = await axios.get(url);
-  const data = response.data;
+    const carnumberapi =
+      "https://autodigg.com/ad-api/cars/list?usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&return=count";
+    const totalcar = await axios.get(carnumberapi);
+    const totalcarnumber = totalcar.data;
 
-  const modelUrl = "https://autodigg.com/ad-api/cars/list?make=&return=model";
-  const modelResponse = await axios.get(modelUrl);
-  const model = modelResponse.data;
-  const bodyTypeUrl =
-    "https://autodigg.com/ad-api/cars/list?make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=body_type";
-  const bodyResponse = await axios.get(bodyTypeUrl);
-  const bodyType = bodyResponse.data;
+    const modelUrl = "https://autodigg.com/ad-api/cars/list?make=&return=model";
+    const modelResponse = await axios.get(modelUrl);
+    const model = modelResponse.data;
+    const bodyTypeUrl =
+      "https://autodigg.com/ad-api/cars/list?make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=body_type";
+    const bodyResponse = await axios.get(bodyTypeUrl);
+    const bodyType = bodyResponse.data;
+    const exteriorColorUrl =
+      "https://autodigg.com/ad-api/cars/list?body_type=&make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=exterior_color";
+    const extRes = await axios.get(exteriorColorUrl);
+    const exteriorColor = extRes.data;
 
-  const exteriorColorUrl =
-    "https://autodigg.com/ad-api/cars/list?body_type=&make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=exterior_color";
-  const extRes = await axios.get(exteriorColorUrl);
-  const exteriorColor = extRes.data;
+    const interiorColorUrl =
+      "https://autodigg.com/ad-api/cars/list?body_type=&make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=interior_color";
+    const intRes = await axios.get(interiorColorUrl);
+    const interiorColor = intRes.data;
 
-  const interiorColorUrl =
-    "https://autodigg.com/ad-api/cars/list?body_type=&make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=interior_color";
-  const intRes = await axios.get(interiorColorUrl);
-  const interiorColor = intRes.data;
+    const transmissionUrl =
+      "https://autodigg.com/ad-api/cars/list?body_type=&make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=transmission";
+    const transRes = await axios.get(transmissionUrl);
+    const transmission = transRes.data;
 
-  const transmissionUrl =
-    "https://autodigg.com/ad-api/cars/list?body_type=&make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=transmission";
-  const transRes = await axios.get(transmissionUrl);
-  const transmission = transRes.data;
+    const driveTrainUrl =
+      "https://autodigg.com/ad-api/cars/list?body_type=&make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=drivetrain";
+    const driveRes = await axios.get(driveTrainUrl);
+    const driveTrain = driveRes.data;
 
-  const driveTrainUrl =
-    "https://autodigg.com/ad-api/cars/list?body_type=&make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=drivetrain";
-  const driveRes = await axios.get(driveTrainUrl);
-  const driveTrain = driveRes.data;
+    const fuelTypeUrl =
+      "https://autodigg.com/ad-api/cars/list?body_type=&make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=fuel_type";
+    const fuelRes = await axios.get(fuelTypeUrl);
+    const fuelType = fuelRes.data;
 
-  const fuelTypeUrl =
-    "https://autodigg.com/ad-api/cars/list?body_type=&make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=fuel_type";
-  const fuelRes = await axios.get(fuelTypeUrl);
-  const fuelType = fuelRes.data;
+    const featuresUrl =
+      "https://autodigg.com/ad-api/cars/list?body_type=&make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=features";
+    const fetRes = await axios.get(featuresUrl);
+    const features = fetRes.data;
 
-  const featuresUrl =
-    "https://autodigg.com/ad-api/cars/list?body_type=&make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=features";
-  const fetRes = await axios.get(featuresUrl);
-  const features = fetRes.data;
-  return {
-    props: {
-      totalcar: totalcarnumber.count,
-      cardata: data,
-      model: model,
-      bodytype: bodyType,
-      exteriorcolor: exteriorColor,
-      interiorcolor: interiorColor,
-      transmission: transmission,
-      drivetrain: driveTrain,
-      fueltype: fuelType,
-      features: features,
-    },
-  };
-}
+    const makeurl = "https://autodigg.com/ad-api/cars/list?return=make";
+    const makedata = await axios.get(makeurl);
+    const make = makedata.data;
+
+    store.dispatch(getMake(make));
+    store.dispatch(getFeatures(features));
+
+    store.dispatch(getFuelType(fuelType));
+
+    store.dispatch(getDriveTrain(driveTrain));
+    store.dispatch(getTransmission(transmission));
+
+    store.dispatch(getInteriorColor(interiorColor));
+
+    store.dispatch(getExteriorColor(exteriorColor));
+    store.dispatch(getBodyType(bodyType));
+    store.dispatch(getModel(model));
+    store.dispatch(getTotalCarNumber(totalcarnumber));
+    store.dispatch(getCars(data));
+  }
+);
+
+// export async function getServerSideProps() {
+
+//   const url =
+//     "https://autodigg.com/ad-api/cars/list?usedCar=true&car_type=Used+car&page=1&radius=100";
+//   const response = await axios.get(url);
+//   const data = response.data;
+
+//
+
+//
+//   return {
+//     props: {
+//       totalcar: totalcarnumber.count,
+//       cardata: data,
+//       model: model,
+//       bodytype: bodyType,
+//       exteriorcolor: exteriorColor,
+//       interiorcolor: interiorColor,
+//       transmission: transmission,
+//       drivetrain: driveTrain,
+//       fueltype: fuelType,
+//       features: features,
+//     },
+//   };
+// }

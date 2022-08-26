@@ -4,21 +4,24 @@ import Dropdown from "./Dropdown";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import ReactPaginate from "react-paginate";
+import { useDispatch } from "react-redux";
+
+import { fetchCars } from "../redux/slice/homePageSlices";
 
 export function Sidebar({ cardata }) {
   const router = useRouter();
-  const [width, setWidth] = useState("");
+
+  const dispatch = useDispatch();
+  // const [width, setWidth] = useState("");
 
   const [currentItems, setCurrentItems] = useState(null);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
 
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % items.length;
-    console.log(
-      `User requested page number ${event.selected}, which is offset ${newOffset}`
-    );
-    setItemOffset(newOffset);
+    console.log("ivent", event.selected + 1);
+
+    dispatch(fetchCars(event.selected + 1));
   };
   return (
     <>
@@ -117,7 +120,7 @@ export function Sidebar({ cardata }) {
             pageCount={64}
             marginPagesDisplayed={1}
             pageRangeDisplayed={5}
-            // onPageChange={handlePageClick}
+            onPageChange={handlePageClick}
             containerClassName={"flex gap-[8px] justify-center	 items-center"}
             pageClassName={
               "w-[36px] flex items-center justify-center h-[36px] text-[#555770] font-[500] text-[14px] bg-white border-[1px] border-solid border-[#E4E4EB] rounded-[6px]"
