@@ -5,21 +5,11 @@ import { BsChevronDown } from "react-icons/bs";
 import { BiChevronDown } from "react-icons/bi";
 import axios from "axios";
 
+import { useSelector } from "react-redux";
+
 import Slider, { Range } from "rc-slider";
 import "rc-slider/assets/index.css";
 import Dropdown from "./Dropdown";
-const people = [
-  "Wade Cooper",
-  "Arlene Mccoy",
-  "Devon Webb",
-  "Tom Cook",
-  "Tanya Fox",
-  "Hellen Schmidt",
-  "Caroline Schultz",
-  "Mason Heaney",
-  "Claudie Smitham",
-  "Emil Schaefer",
-];
 
 export function FilterBar({
   user,
@@ -32,7 +22,9 @@ export function FilterBar({
   model,
   fueltype,
   features,
+  make,
 }) {
+  const people = Object.keys(make);
   const [styledropdown, setStleDropdown] = useState(false);
   const [performancedropdown, setPerformancedropdown] = useState(false);
   const [featuredropdown, setFeaturedropdown] = useState(false);
@@ -65,12 +57,15 @@ export function FilterBar({
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPersons, setSelectedPersons] = useState([]);
 
+  // const selctedpersondata = () => {};
+
   function isSelected(value) {
     return selectedPersons.find((el) => el === value) ? true : false;
   }
 
   function handleSelect(value) {
     if (!isSelected(value)) {
+      console.log("value", value);
       const selectedPersonsUpdated = [
         ...selectedPersons,
         people.find((el) => el === value),
@@ -84,6 +79,7 @@ export function FilterBar({
 
   function handleDeselect(value) {
     const selectedPersonsUpdated = selectedPersons.filter((el) => el !== value);
+    console.log("new", selectedPersonsUpdated);
     setSelectedPersons(selectedPersonsUpdated);
     setIsOpen(true);
   }
@@ -103,9 +99,22 @@ export function FilterBar({
         <aside className="mt-[24px] flex flex-col gap-[14px]">
           <span>Car type</span>
           <section className="flex  justify-start items-center gap-[10px]">
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              onChange={(e) => {
+                console.log(e);
+              }}
+              className="accent-black"
+            />
             <label className="text-[14px] leading-[20px]">New</label>{" "}
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              onChange={(e) => {
+                console.log(e);
+              }}
+              className="accent-black"
+              defaultChecked
+            />
             <label className="text-[14px] leading-[20px]">Used</label>
           </section>
         </aside>
@@ -157,6 +166,7 @@ export function FilterBar({
             </span>
           </div>
         </section>
+
         <div className="flex  flex-col my-[16px] gap-[8px] w-[280px] ">
           <span>MAKE</span>
           <div className="w-full max-w-xs mx-auto">
@@ -179,9 +189,7 @@ export function FilterBar({
                         <span className="block truncate overflow-hidden">
                           {selectedPersons.length < 1
                             ? "Select persons"
-                            : selectedPersons.map((data) => {
-                                return data;
-                              })}
+                            : selectedPersons.toString()}
                         </span>
 
                         <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
@@ -370,237 +378,8 @@ export function FilterBar({
           </section>
         </section>
       </section>
-      {/* <div className="line w-[100%] h-[2px] bg-[#E4E4EB] mt-[36px] mb-[10px]" /> */}
-      {/* <section className="style my-[16px] w-[100%] px-[16px] ">
-        <div
-          className="flex justify-between  items-center  w-[100%]  cursor-pointer"
-          onClick={changeStyle}
-        >
-          <span className=" text-[16px] leading-[24px] font-[600]"> Style</span>
-          <BsChevronDown />
-        </div>
-        <div
-          className={`style w-[100%] flex flex-col gap-[10px] ${
-            styledropdown ? "max-h-[1000px] py-[10px]  " : " h-[0px] "
-          }transition-all ease-in-out duration-1000 overflow-hidden `}
-        >
-          <div className="body-style flex flex-col gap-[10px]">
-            <span className="text-[12px] text-[#8F90A6] font-[600]">
-              BODY STYLE
-            </span>
 
-            <div className="body-style-check flex flex-col">
-              {Object.keys(bodytype).map((key, index) => {
-                return (
-                  <>
-                    <div className="body-style-input flex gap-[10px]">
-                      <input type="checkbox" />
-                      <label className="text-[14px] leading-[20px] font-[500]">
-                        {`${key} `}
-                      </label>
-                    </div>
-                  </>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="EXTERIOR-COLOR flex flex-col gap-[10px]">
-            <span className="text-[12px] text-[#8F90A6] font-[600]">
-              EXTERIOR COLOR
-            </span>
-            <div className="EXTERIOR-COLOR-check flex flex-col">
-              {Object.keys(exteriorcolor).map((key, index) => {
-                return (
-                  <>
-                    <div className="EXTERIOR-COLOR-input flex gap-[10px]">
-                      <input type="checkbox" />
-                      <label className="text-[14px] leading-[20px] font-[500]">
-                        {`${key} `}
-                      </label>
-                    </div>
-                  </>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="INTERIOR-COLOR flex flex-col gap-[10px]">
-            <span className="text-[12px] text-[#8F90A6] font-[600]">
-              INTERIOR COLOR
-            </span>
-            <div className="INTERIOR-COLOR-check flex flex-col">
-              {Object.keys(interiorcolor).map((key, index) => {
-                return (
-                  <>
-                    <div className="INTERIOR-COLOR-input flex gap-[10px]">
-                      <input type="checkbox" />
-                      <label className="text-[14px] leading-[20px] font-[500]">
-                        {`${key}   `}
-                      </label>
-                    </div>
-                  </>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-      <div className="line w-[100%] h-[2px] bg-[#E4E4EB] mt-[16px] mb-[10px]" />
-      <section className="Performance w-[100%]   my-[16px] px-[16px] ">
-        <div
-          className={`flex justify-between  items-center  w-[100%]  cursor-pointer `}
-          onClick={changeperformancedropdown}
-        >
-          <span className=" text-[16px] leading-[24px] font-[600]">
-            Performance
-          </span>
-          <BsChevronDown />
-        </div>
-        <div
-          className={`style  w-[100%]   flex flex-col gap-[10px] ${
-            performancedropdown
-              ? "max-h-[1000px]  py-[10px] "
-              : " h-[0px] py-[0px]"
-          }transition-all ease-in-out duration-9000 overflow-hidden `}
-        >
-          <div className="Performance flex flex-col gap-[10px]">
-            <span className="text-[12px] text-[#8F90A6] font-[600]">
-              TRANSMISSION
-            </span>
-            <div className="body-style-check flex flex-col">
-              {Object.keys(transmission).map((key, index) => {
-                return (
-                  <>
-                    <div className="   TRANSMISSION-input flex gap-[10px]">
-                      <input type="checkbox" />
-                      <label className="text-[14px] leading-[20px] font-[500]">
-                        {`${key} `}
-                      </label>
-                    </div>
-                  </>
-                );
-              })}
-              <div className="body-style-input flex gap-[10px]">
-                <input type="checkbox" />
-                <lable>Convertable</lable>
-              </div>
-            </div>
-          </div>
-
-          <div className="DRIVE-TRAIN flex flex-col gap-[10px]">
-            <span className="text-[12px] text-[#8F90A6] font-[600]">
-              DRIVE TRAIN
-            </span>
-            <div className="body-style-check flex flex-col">
-              <div className="body-style-check flex flex-col">
-                {Object.keys(drivetrain).map((key, index) => {
-                  return (
-                    <>
-                      <div className="   TRANSMISSION-input flex gap-[10px]">
-                        <input type="checkbox" />
-                        <label className="text-[14px] leading-[20px] font-[500]">
-                          {`${key} `}
-                        </label>
-                      </div>
-                    </>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-
-          <div className="FUEL-TYPE flex flex-col gap-[10px]">
-            <span className="text-[12px] text-[#8F90A6] font-[600]">
-              FUEL TYPE
-            </span>
-            <div className="body-style-check flex flex-col">
-              <div className="body-style-check flex flex-col">
-                {Object.keys(fueltype).map((key, index) => {
-                  return (
-                    <>
-                      <div className="   TRANSMISSION-input flex gap-[10px]">
-                        <input type="checkbox" />
-                        <label className="text-[14px] leading-[20px] font-[500]">
-                          {`${key} `}
-                        </label>
-                      </div>
-                    </>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <div className="line w-[100%] h-[2px] bg-[#E4E4EB] mt-[16px] mb-[10px]" />
-      <section className="Feature my-[16px] w-[100%] px-[16px] ">
-        <div
-          className="flex justify-between  items-center  w-[100%]  cursor-pointer"
-          onClick={changefeaturedropdown}
-        >
-          <span className=" text-[16px] leading-[24px] font-[600]">
-            Feature
-          </span>
-          <BsChevronDown />
-        </div>
-        <div
-          className={` Feature  w-[100%]   flex flex-col gap-[10px] ${
-            featuredropdown
-              ? "max-h-[1000px] py-[10px] "
-              : " max-h-[0px] overflow-hidden "
-          } transition-all ease-in-out duration-1000  `}
-        >
-          <div className="Feature flex flex-col gap-[10px]">
-            <span className="text-[12px] text-[#8F90A6] font-[600]">
-              INTERIOR FEATURES
-            </span>
-            <div className="body-style-check flex flex-col">
-              <div className="INTERIOR-FEATURES-input flex gap-[10px]">
-                <input type="checkbox" />
-                <lable>Convertable</lable>
-              </div>
-            </div>
-          </div>
-
-          <div className="TECHNOLOGY-TECHNFboOLOGY FEATURESFEATURES flex flex-col gap-[10px]">
-            <span className="text-[12px] text-[#8F90A6] font-[600]">
-              TECHNOLOGY FEATURES
-            </span>
-            <div className="TECHNOLOGY-TECHNOLOGY-check flex flex-col">
-              <div className="TECHNOLOGY-TECHNOLOGY-input flex gap-[10px]">
-                <input type="checkbox" />
-                <lable>Convertable</lable>
-              </div>
-            </div>
-          </div>
-
-          <div className="SAFETY-FEATURES flex flex-col gap-[10px]">
-            <span className="text-[12px] text-[#8F90A6] font-[600]">
-              SAFETY FEATURES
-            </span>
-            <div className="SAFETY-FEATURES-check flex flex-col">
-              <div className="SAFETY-FEATURES-input flex gap-[10px]">
-                <input type="checkbox" />
-                <lable>Convertable</lable>
-              </div>
-            </div>
-          </div>
-
-          <div className="  EXTERIOR-FEATURES flex flex-col gap-[10px]">
-            <span className="text-[12px] text-[#8F90A6] font-[600]">
-              EXTERIOR FEATURES
-            </span>
-            <div className="  EXTERIOR-FEATURES-check flex flex-col">
-              <div className="  EXTERIOR-FEATURES-input flex gap-[10px]">
-                <input type="checkbox" />
-                <lable>Convertable</lable>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <div className="line w-[100%] h-[2px] bg-[#E4E4EB] mt-[16px] mb-[16px]" /> */}
+      {/* <div className="line w-[100%] h-[2px] bg-[#E4E4EB] mt-[16px] mb-[16px]" /> */}
       <div className="line w-[100%] h-[2px] bg-[#E4E4EB] mt-[16px] mb-[16px]" />
 
       <Dropdown
@@ -609,6 +388,8 @@ export function FilterBar({
         name={"Style"}
         key={1}
       />
+
+      {/* , "DRIVE TRAIN"" */}
       <div className="line w-[100%] h-[2px] bg-[#E4E4EB] mt-[16px] mb-[16px]" />
       <Dropdown
         apidata={["TRANSMISSION", "DRIVE TRAIN", "FUEL TYPE"]}
@@ -633,6 +414,7 @@ export function FilterBar({
         ]}
         name={"Feature"}
       />
+      {/* 
       {/* INTERIOR FEATURES */}
     </section>
   );
