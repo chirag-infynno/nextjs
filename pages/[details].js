@@ -68,7 +68,7 @@ const details = ({ cars }) => {
       </nav>
 
       <section className="spacial-offer bg-[#FFF8E6] px-[112px] py-[24px]">
-        <div className="spacial-offer-div flex  gap-[16px]">
+        <div className="spacial-offer-div flex flex-col gap-[16px]">
           <div className="flex gap-[4px]">
             <Image
               src="/wheel.png"
@@ -80,11 +80,11 @@ const details = ({ cars }) => {
               Special offers
             </span>
           </div>
-          <div className="flex gap-[16px] w-[329px]">
-            <span className="text-[14px] leading-[24px]">
+          <div className="flex gap-[16px] ">
+            <span className="text-[14px] leading-[24px]  w-[329px]">
               • 100% credit approval guaranteed
             </span>
-            <span className="text-[14px] leading-[24px]">
+            <span className="text-[14px] leading-[24px]  w-[329px]">
               • Complimentary 101pt safety check
             </span>
           </div>

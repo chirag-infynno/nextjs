@@ -87,70 +87,86 @@ export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async () => {
     const url =
       "https://autodigg.com/ad-api/cars/list?usedCar=true&car_type=Used+car&page=1&radius=100";
-    const response = await axios.get(url);
-    const data = response.data;
+    // const response = await axios.get(url);
+    // const data = response.data;
 
     const carnumberapi =
       "https://autodigg.com/ad-api/cars/list?usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&return=count";
-    const totalcar = await axios.get(carnumberapi);
-    const totalcarnumber = totalcar.data;
+    // const totalcar = await axios.get(carnumberapi);
+    // const totalcarnumber = totalcar.data;
 
     const modelUrl = "https://autodigg.com/ad-api/cars/list?make=&return=model";
-    const modelResponse = await axios.get(modelUrl);
-    const model = modelResponse.data;
+    // const modelResponse = await axios.get(modelUrl);
+    // const model = modelResponse.data;
     const bodyTypeUrl =
       "https://autodigg.com/ad-api/cars/list?make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=body_type";
-    const bodyResponse = await axios.get(bodyTypeUrl);
-    const bodyType = bodyResponse.data;
+    // const bodyResponse = await axios.get(bodyTypeUrl);
+    // const bodyType = bodyResponse.data;
     const exteriorColorUrl =
       "https://autodigg.com/ad-api/cars/list?body_type=&make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=exterior_color";
-    const extRes = await axios.get(exteriorColorUrl);
-    const exteriorColor = extRes.data;
+    // const extRes = await ;
+    // const exteriorColor = extRes.data;
 
     const interiorColorUrl =
       "https://autodigg.com/ad-api/cars/list?body_type=&make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=interior_color";
-    const intRes = await axios.get(interiorColorUrl);
-    const interiorColor = intRes.data;
+    // const intRes = await ;
+    // const interiorColor = intRes.data;
 
     const transmissionUrl =
       "https://autodigg.com/ad-api/cars/list?body_type=&make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=transmission";
-    const transRes = await axios.get(transmissionUrl);
-    const transmission = transRes.data;
+    // const transRes = await ;
+    // const transmission = transRes.data;
 
     const driveTrainUrl =
       "https://autodigg.com/ad-api/cars/list?body_type=&make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=drivetrain";
-    const driveRes = await axios.get(driveTrainUrl);
-    const driveTrain = driveRes.data;
+    // const driveRes = await a
+    // const driveTrain = driveRes.data;
 
     const fuelTypeUrl =
       "https://autodigg.com/ad-api/cars/list?body_type=&make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=fuel_type";
-    const fuelRes = await axios.get(fuelTypeUrl);
-    const fuelType = fuelRes.data;
+    // const fuelRes = await axios.get(fuelTypeUrl);
+    // const fuelType = fuelRes.data;
 
     const featuresUrl =
       "https://autodigg.com/ad-api/cars/list?body_type=&make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=features";
-    const fetRes = await axios.get(featuresUrl);
-    const features = fetRes.data;
+    // const fetRes = await axios.get(featuresUrl);
+    // const features = fetRes.data;
 
     const makeurl = "https://autodigg.com/ad-api/cars/list?return=make";
-    const makedata = await axios.get(makeurl);
-    const make = makedata.data;
+    // const makedata = await ;
+    // const make = makedata.data;
 
-    store.dispatch(getMake(make));
-    store.dispatch(getFeatures(features));
+    const datasss = await axios.all([
+      axios.get(url),
+      axios.get(makeurl),
+      axios.get(featuresUrl),
+      axios.get(fuelTypeUrl),
+      axios.get(driveTrainUrl),
+      axios.get(transmissionUrl),
+      axios.get(interiorColorUrl),
+      axios.get(exteriorColorUrl),
+      axios.get(bodyTypeUrl),
+      axios.get(modelUrl),
+      axios.get(carnumberapi),
+    ]);
 
-    store.dispatch(getFuelType(fuelType));
+    store.dispatch(getModel(datasss[9].data));
+    store.dispatch(getTotalCarNumber(datasss[10].data));
 
-    store.dispatch(getDriveTrain(driveTrain));
-    store.dispatch(getTransmission(transmission));
+    store.dispatch(getDriveTrain(datasss[4].data));
+    store.dispatch(getTransmission(datasss[5].data));
 
-    store.dispatch(getInteriorColor(interiorColor));
+    store.dispatch(getInteriorColor(datasss[6].data));
 
-    store.dispatch(getExteriorColor(exteriorColor));
-    store.dispatch(getBodyType(bodyType));
-    store.dispatch(getModel(model));
-    store.dispatch(getTotalCarNumber(totalcarnumber));
-    store.dispatch(getCars(data));
+    store.dispatch(getExteriorColor(datasss[7].data));
+    store.dispatch(getBodyType(datasss[8].data));
+
+    store.dispatch(getMake(datasss[1].data));
+    store.dispatch(getFeatures(datasss[2].data));
+
+    store.dispatch(getFuelType(datasss[3].data));
+
+    store.dispatch(getCars(datasss[0].data));
   }
 );
 

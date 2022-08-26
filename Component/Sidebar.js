@@ -6,11 +6,7 @@ import Link from "next/link";
 import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  fetchCars,
-  changePage,
-  changeCarApi,
-} from "../redux/slice/homePageSlices";
+import { changePage, changeCarApi } from "../redux/slice/homePageSlices";
 
 export function Sidebar({ cardata }) {
   const router = useRouter();

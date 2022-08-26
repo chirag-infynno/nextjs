@@ -8,6 +8,7 @@ import {
   newapi,
   changeCarTypeState,
   changeMakeData,
+  changeCarModel,
 } from "../redux/slice/homePageSlices";
 import { useDispatch, useSelector } from "react-redux";
 import Slider, { Range } from "rc-slider";
@@ -29,7 +30,9 @@ export function FilterBar({
   const dispatch = useDispatch();
   // const [carType, setCarType] = useState(["used+car"]);
 
-  const { carType } = useSelector((state) => state.homePageSlice);
+  const { carType, selcetCarModel } = useSelector(
+    (state) => state.homePageSlice
+  );
   const people = Object.keys(make);
   const [styledropdown, setStleDropdown] = useState(false);
   const [performancedropdown, setPerformancedropdown] = useState(false);
@@ -41,8 +44,6 @@ export function FilterBar({
   const [miles, setMiles] = useState(0);
 
   const [showmore, setShowmore] = useState(false);
-
-  const changeModel = (e) => {};
 
   const changeshowmore = () => {
     setShowmore(!showmore);
@@ -61,11 +62,23 @@ export function FilterBar({
 
     dispatch(changeCarApi());
   };
+
+  const changeModel = (e) => {
+    const carModel = [...selcetCarModel];
+
+    e.target.checked
+      ? carModel.push(e.target.value)
+      : carModel.splice(carModel.indexOf(e.target.value), 1);
+    dispatch(changeCarModel(carModel));
+    dispatch(changeCarApi());
+  };
+
   function isSelected(value) {
     return selectedPersons.find((el) => el === value) ? true : false;
   }
 
   function handleSelect(value) {
+    dispatch(changeCarModel([]));
     if (!isSelected(value)) {
       const selectedPersonsUpdated = [
         ...selectedPersons,
@@ -222,9 +235,7 @@ export function FilterBar({
                               {({ active }) => (
                                 <div
                                   className={`${
-                                    active
-                                      ? "text-red-900 bg-blue-600"
-                                      : "text-gray-900 "
+                                    active ? "" : "text-gray-900 "
                                   } cursor-default select-none relative py-2 pl-8 pr-4`}
                                 >
                                   <span
@@ -261,8 +272,15 @@ export function FilterBar({
                   className="flex items-center justify-start gap-[10px]"
                   key={index}
                 >
-                  <input type="checkbox" name={key} onChange={changeModel} />
-                  <label className="uppercase">{`${key} (${model[key]})  `}</label>
+                  <input
+                    type="checkbox"
+                    name={key}
+                    onChange={changeModel}
+                    value={key}
+                    className="w-[20px] h-[20px]"
+                  />
+
+                  <label className="uppercase font-[500] text-[15px] leading-[20px]">{`${key} (${model[key]})  `}</label>
                 </section>
               );
             })}
@@ -410,10 +428,10 @@ export function FilterBar({
           "Other",
         ]}
         bodydata={[
-          features["Interior Features"],
+          features["Interior Features"] && features["Interior Features"],
           features["Technology Features"],
           features["Safety Features"],
-          features["Exterior Features"],
+          features["Safety Features"],
           features["Others"],
         ]}
         name={"Feature"}
