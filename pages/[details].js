@@ -9,6 +9,7 @@ import Image from "next/image";
 import Head from "next/head";
 import ImageGallery from "react-image-gallery";
 import { FooterComponent } from "../Component/Footer";
+import { RWebShare } from "react-web-share";
 const details = ({ cars }) => {
   const images = cars.photos.map((data) => {
     return {
@@ -34,8 +35,16 @@ const details = ({ cars }) => {
           </div>
           <div className="flex flex-col gap-[8px] ">
             <span className="text-[32px] leading-[44px] font-[700] flex items-start">
-              {`${cars.make} ${cars.model}`}
+              {`${cars.make} ${cars.model}`}{" "}
             </span>
+            <RWebShare
+              data={{
+                title: "Flamingos",
+              }}
+              onClick={() => console.log("shared successfully!")}
+            >
+              <button> share</button>
+            </RWebShare>
             <div className="flex flex-col gap-[10px]">
               <span className="text-[16px] leading-[14px] fomt-[400] text-[#8F90A6]">
                 {cars.dealership} •{cars.milage} Mileage • {cars.exterior_color}
