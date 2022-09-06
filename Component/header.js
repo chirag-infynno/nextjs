@@ -3,6 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 
 export const HeaderComponent = () => {
+  //update
   return (
     <>
       <div className="  flex   justify-between items-center border-b-[2px] max-w-[1440px]  border-[#E4E4EB] h-[68px]  whitespace-nowrap px-[60px] bg-white">
