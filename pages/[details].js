@@ -16,6 +16,7 @@ const details = ({ cars }) => {
       thumbnail: data,
     };
   });
+  console.log("change");
   return (
     <>
       <Head>
