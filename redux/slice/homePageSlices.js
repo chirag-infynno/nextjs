@@ -18,9 +18,9 @@ const initialState = {
   loding: false,
   make: {},
   carType: ["used+car"],
-
+  apidata: {},
   selectMake: [],
-  totalpage: 0,
+  totalPage: 0,
   currentPage: 0,
   loding: false,
   selcetCarModel: [],
@@ -32,41 +32,45 @@ const initialState = {
   selectDriveTrain: [],
   selectFuelType: [],
   selectFeatures: [],
+  datas: {
+    name: "ja",
+  },
 };
 
 export const newapi = createAsyncThunk("newapi", async () => {
-  const carnumberapi = await axios.all([
-    axios.get(
-      `https://autodigg.com/ad-api/cars/list?usedCar=true&car_type=${cartype.toString()}&page=1&radius=100&year=2011%2C2021&return=count`
-    ),
-    axios.get(
-      `https://autodigg.com/ad-api/cars/list?usedCar=true&car_type=${cartype.toString()}r&page=1&radius=100`
-    ),
-  ]);
+  const apis = await axios.get(
+    "https://autodigg.com/ad-api/cars/list?body_type=&make=&model=&usedCar=true&car_type=Used+car&page=1&radius=100&year=2011%2C2021&zip=&return=exterior_color"
+  );
 
-  return carnumberapi;
+  return apis;
 });
 
 export const changeCarApi = createAsyncThunk(
   "changeCarApi",
-  async (xyz, { getState }) => {
+  async (range, { getState }) => {
     const state = getState().homePageSlice;
-    console.log("cartype", state.selectMake);
+    const { priceRange, makeYear, page } = range;
 
     try {
       const apiCall = await axios.all([
         axios.get(
-          `https://autodigg.com/ad-api/cars/list?make=${state.selectMake.toString()}&body_type=${state.selectBodyType.toString()}&model=${state.selcetCarModel.toString()}&car_type=${state.carType.toString()}&exterior_color=${state.selectExteriorColor.toString()}&transmission=${state.selectTransmission.toString()}&drivetrain=${state.selectDriveTrain.toString()}&fuel_type=${state.selectFuelType.toString()}&features=${state.selectFeatures.toString()}&return=count`
+          `https://autodigg.com/ad-api/cars/list?make=${state.selectMake.toString()}&body_type=${state.selectBodyType.toString()}&model=${state.selcetCarModel.toString()}&car_type=${state.carType.toString()}&exterior_color=${state.selectExteriorColor.toString()}&transmission=${state.selectTransmission.toString()}&drivetrain=${state.selectDriveTrain.toString()}&fuel_type=${state.selectFuelType.toString()}&features=${state.selectFeatures.toString()}&price=${
+            priceRange[0]
+          }&price_from=${priceRange[0]}&price_to=${priceRange[1]}&year_from=${
+            makeYear[0]
+          }&year_to=${makeYear[1]}&return=count`
         ),
 
         axios.get(
-          `https://autodigg.com/ad-api/cars/list?make=${state.selectMake.toString()}&body_type=${state.selectBodyType.toString()}&model=${state.selcetCarModel.toString()}&car_type=${state.carType.toString()}&exterior_color=${state.selectExteriorColor.toString()}&transmission=${state.selectTransmission.toString()}&drivetrain=${state.selectDriveTrain.toString()}&fuel_type=${state.selectFuelType.toString()}&features=${state.selectFeatures.toString()}`
+          `https://autodigg.com/ad-api/cars/list?make=${state.selectMake.toString()}&body_type=${state.selectBodyType.toString()}&model=${state.selcetCarModel.toString()}&car_type=${state.carType.toString()}&exterior_color=${state.selectExteriorColor.toString()}&transmission=${state.selectTransmission.toString()}&drivetrain=${state.selectDriveTrain.toString()}&fuel_type=${state.selectFuelType.toString()}&features=${state.selectFeatures.toString()}&price=${
+            priceRange[0]
+          }&price_from=${priceRange[0]}&price_to=${priceRange[1]}&year_from=${
+            makeYear[0]
+          }&year_to=${makeYear[1]}&page=${page}`
         ),
-
         axios.get(
           `https://autodigg.com/ad-api/cars/list?make=${state.selectMake.toString()}&car_type=${state.carType.toString()}&return=model`
         ),
-
         axios.get(
           `https://autodigg.com/ad-api/cars/list?make=${state.selectMake.toString()}&car_type=${state.carType.toString()} &return=exterior_color`
         ),
@@ -100,44 +104,6 @@ const homePageSlice = createSlice({
   name: "homepage",
   initialState,
   reducers: {
-    getCars: (state, action) => {
-      state.cars = action.payload;
-    },
-    getTotalCarNumber: (state, action) => {
-      state.totalcarnumber = action.payload.count;
-    },
-    getModel: (state, action) => {
-      state.model = action.payload;
-    },
-    getBodyType: (state, action) => {
-      state.bodytype = action.payload;
-    },
-    getExteriorColor: (state, action) => {
-      state.exteriorcolor = action.payload;
-    },
-
-    getInteriorColor: (state, action) => {
-      state.interiorcolor = action.payload;
-    },
-    getTransmission: (state, action) => {
-      state.transmission = action.payload;
-    },
-    getDriveTrain: (state, action) => {
-      state.drivetrain = action.payload;
-    },
-    getFuelType: (state, action) => {
-      state.fueltype = action.payload;
-    },
-    getFeatures: (state, action) => {
-      state.features = action.payload;
-    },
-    getPageChange: (state, action) => {
-      state.features = action.payload;
-    },
-    getMake: (state, action) => {
-      state.make = action.payload;
-    },
-
     changeCarTypeState: (state, action) => {
       // console.log("changetype", action);
       state.carType = action.payload;
@@ -175,81 +141,32 @@ const homePageSlice = createSlice({
     },
   },
   extraReducers: {
-    [HYDRATE]: (state, action) => {
-      state.cars = action.payload.homePageSlice.cars;
-      state.totalcarnumber = action.payload.homePageSlice.totalcarnumber;
-      state.model = action.payload.homePageSlice.model;
-      state.bodytype = action.payload.homePageSlice.bodytype;
-      state.exteriorcolor = action.payload.homePageSlice.exteriorcolor;
-      state.interiorcolor = action.payload.homePageSlice.interiorcolor;
-      state.transmission = action.payload.homePageSlice.transmission;
-      state.drivetrain = action.payload.homePageSlice.drivetrain;
-      state.fueltype = action.payload.homePageSlice.fueltype;
-      state.features = action.payload.homePageSlice.features;
-      state.make = action.payload.homePageSlice.make;
-      state.totalpage = Math.ceil(state.totalcarnumber / 20);
-      state.selectMake = action.payload.homePageSlice.selectMake;
-
-      state.loding = action.payload.homePageSlice.loding;
-      state.currentPage = action.payload.homePageSlice.currentPage;
-      state.selcetCarModel = action.payload.homePageSlice.selcetCarModel;
-      state.selectBodyType = action.payload.homePageSlice.selectBodyType;
-      state.selectExteriorColor =
-        action.payload.homePageSlice.selectExteriorColor;
-    },
-
     [changeCarApi.pending]: (state, action) => {
-      console.log(action);
       state.loding = true;
     },
 
     [changeCarApi.fulfilled]: (state, action) => {
-      console.log(action);
-      // state.totalcarnumber = action.payload[0].data.count;
-      // state.cars = action.payload[1].data;
-      // state.totalpage = Math.ceil(action.payload[0].data.count / 20);
-
-      // console.log("api call", action);
+      console.log("fulfilled", action);
       state.loding = false;
-
-      state.totalcarnumber = action.payload[0]?.data.count;
+      state.totalcarnumber = action?.payload[0].data.count;
       state.cars = action.payload[1].data;
       state.totalpage = Math.ceil(action.payload[0]?.data.count / 20);
       state.model = action.payload[2].data;
       state.exteriorcolor = action.payload[3].data;
       state.interiorcolor = action.payload[4].data;
       state.transmission = action.payload[5].data;
-
       state.drivetrain = action.payload[6].data;
       state.fueltype = action.payload[7].data;
       state.features = action.payload[8].data;
       state.bodytype = action.payload[9].data;
     },
     [newapi.fulfilled]: (state, action) => {
-      state.totalcarnumber = action.payload[0]?.data.count;
-      state.cars = action.payload[1];
-      state.totalpage = Math.ceil(action.payload[0].data.count / 20);
-      state.currentPage = 0;
-
-      // state.new1 = action.payload[0].data;
-      // state.new2 = action.payload[0].data;
-      // console.log("data", action.payload);
+      state.apidata = action.payload.data;
     },
   },
 });
 
 export const {
-  getCars,
-  getTotalCarNumber,
-  getModel,
-  getBodyType,
-  getExteriorColor,
-  getInteriorColor,
-  getTransmission,
-  getDriveTrain,
-  getFuelType,
-  getFeatures,
-  getMake,
   changeCarTypeState,
   changePage,
   changeMakeData,

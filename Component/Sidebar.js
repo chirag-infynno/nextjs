@@ -7,27 +7,34 @@ import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
 
 import { changePage, changeCarApi } from "../redux/slice/homePageSlices";
+import { useRef } from "react";
 
-export function Sidebar({ cardata }) {
+export function Sidebar(props) {
+  const dispatch = useDispatch();
+  const ref = useRef(null);
+  console.log("props:", props.cars);
   const router = useRouter();
 
-  const dispatch = useDispatch();
-
-  const { totalpage, currentPage, loding } = useSelector(
-    (state) => state.homePageSlice
-  );
-
   const handlePageClick = (event) => {
-    console.log("ivent", event.selected + 1);
-
-    dispatch(changePage(event.selected + 1));
-
-    dispatch(changeCarApi());
+    props.setCurrentPage(event.selected + 1);
+    ref.current.state.selected = 5;
+    dispatch(
+      changeCarApi({
+        priceRange: props.priceRange,
+        makeYear: props.multiRangeModel,
+        page: event.selected + 1,
+      })
+    );
   };
+  // ref.current.state.selected = 6;
+  console.log("all ref", ref.current);
+  useEffect(() => {
+    // props.cardata && console.log("update");
+  }, [props.cardata]);
   return (
     <>
       <div className="flex flex-col gap-[24px]  w-[100%]">
-        {cardata.map((data, index) => (
+        {props.cardata?.map((data, index) => (
           <section
             className={`shadow-cardShadow  rounded-[10px]  sm:pb-[0px] xs:pb-[16px] bg-white `}
             key={index}
@@ -115,10 +122,11 @@ export function Sidebar({ cardata }) {
 
         <div className="py-[64px] border-b-[1px] ">
           <ReactPaginate
+            ref={ref}
             previousLabel={" <"}
             nextLabel={" >"}
             breakLabel={"..."}
-            pageCount={totalpage}
+            pageCount={props.totalpage}
             marginPagesDisplayed={4}
             pageRangeDisplayed={5}
             onPageChange={handlePageClick}

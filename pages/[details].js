@@ -9,7 +9,6 @@ import Image from "next/image";
 import ImageGallery from "react-image-gallery";
 import { FooterComponent } from "../Component/Footer";
 const details = ({ cars }) => {
-  console.log(cars);
   const images = cars.photos.map((data) => {
     return {
       original: data,
@@ -26,14 +25,14 @@ const details = ({ cars }) => {
           </div>
           <div className="flex flex-col gap-[8px] ">
             <span className="text-[32px] leading-[44px] font-[700] flex items-start">
-              2022 Ford F-250 Super Duty
+              {`${cars.make} ${cars.model}`}
             </span>
             <div className="flex flex-col gap-[10px]">
               <span className="text-[16px] leading-[14px] fomt-[400] text-[#8F90A6]">
-                Covert Buick GMC • 3,518 Mileage • Black
+                {cars.dealership} •{cars.milage} Mileage • {cars.exterior_color}
               </span>
               <span className="text-[16px] leading-[14px] fomt-[400] text-[#8F90A6]">
-                Austin, Texas
+                {cars.city}, {cars.state}
               </span>
             </div>
           </div>
@@ -81,10 +80,10 @@ const details = ({ cars }) => {
             </span>
           </div>
           <div className="flex gap-[16px] ">
-            <span className="text-[14px] leading-[24px]  w-[329px]">
+            <span className="text-[14px] leading-[24px] ">
               • 100% credit approval guaranteed
             </span>
-            <span className="text-[14px] leading-[24px]  w-[329px]">
+            <span className="text-[14px] leading-[24px] ">
               • Complimentary 101pt safety check
             </span>
           </div>
@@ -328,11 +327,6 @@ export async function getServerSideProps(context) {
   const cardata = data[0];
 
   return {
-    // props: {
-    //   userdata: { title: "My Title" },
-    // },
-    // revalidate: 1,
-
     props: { cars: cardata },
   };
 }

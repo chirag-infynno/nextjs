@@ -15,33 +15,40 @@ import Slider, { Range } from "rc-slider";
 import "rc-slider/assets/index.css";
 import Dropdown from "./Dropdown";
 
-export function FilterBar({
-  user,
-  bodytype,
-  exteriorcolor,
-  interiorcolor,
-  transmission,
-  drivetrain,
-  model,
-  fueltype,
-  features,
-  make,
-}) {
+export function FilterBar(props) {
   const dispatch = useDispatch();
-  // const [carType, setCarType] = useState(["used+car"]);
+  const [modeldata, setModeldata] = useState(props.model);
+  const [apiData, setApiData] = useState({
+    bodytype: props.bodytype,
+    exteriorcolor: props.exteriorcolor,
+    interiorcolor: props.interiorcolor,
+    transmission: props.transmission,
+    drivetrain: props.drivetrain,
+    fueltype: props.fueltype,
+    features: props.features,
+  });
 
-  const { carType, selcetCarModel } = useSelector(
-    (state) => state.homePageSlice
-  );
-  const people = Object.keys(make);
-  const [styledropdown, setStleDropdown] = useState(false);
-  const [performancedropdown, setPerformancedropdown] = useState(false);
-  const [featuredropdown, setFeaturedropdown] = useState(false);
-  const [multiRange, setMultiRange] = useState([0, 100000]);
-  const [multiRangeModel, setMultiRangeModel] = useState([2000, 2010]);
+  const people = Object.keys(props.make);
+
   const [multiRangeMileage, setMultiRangeMileage] = useState(30);
 
   const [miles, setMiles] = useState(0);
+
+  const {
+    carType,
+    cars,
+    totalcarnumber,
+    model,
+    selcetCarModel,
+    bodytype,
+    exteriorcolor,
+    interiorcolor,
+    transmission,
+    drivetrain,
+    fueltype,
+    features,
+    totalpage,
+  } = useSelector((state) => state.homePageSlice);
 
   const [showmore, setShowmore] = useState(false);
 
@@ -53,16 +60,39 @@ export function FilterBar({
   const [selectedPersons, setSelectedPersons] = useState([]);
 
   const changeCartype = (e) => {
-    const type = [...carType];
+    const type = carType;
+    let arr = e.target.checked
+      ? [...type, e.target.value]
+      : type.filter((dta) => dta != e.target.value);
 
-    e.target.checked
-      ? type.push(e.target.value)
-      : type.splice(type.indexOf(e.target.value), 1);
-    dispatch(changeCarTypeState(type));
-
-    dispatch(changeCarApi());
+    arr.length > 0
+      ? dispatch(changeCarTypeState(arr))
+      : dispatch(changeCarTypeState(["used+car", "new+car"]));
+    props.setCurrentPage(1);
+    dispatch(
+      changeCarApi({
+        priceRange: props.priceRange,
+        makeYear: props.multiRangeModel,
+        page: 1,
+      })
+    );
   };
 
+  const changePrice = (e) => {
+    props.setPriceRange(e);
+    dispatch(
+      changeCarApi({ priceRange: e, makeYear: props.multiRangeModel, page: 1 })
+    );
+    // changeCarApi({ priceRange: e, makeYear: multiRangeModel });
+  };
+
+  const changeMakeYear = (e) => {
+    props.setMultiRangeModel(e);
+    dispatch(
+      changeCarApi({ priceRange: props.priceRange, makeYear: e, page: 1 })
+    );
+    // changeCarApi({ priceRange: e, makeYear: multiRangeModel });
+  };
   const changeModel = (e) => {
     const carModel = [...selcetCarModel];
 
@@ -70,7 +100,15 @@ export function FilterBar({
       ? carModel.push(e.target.value)
       : carModel.splice(carModel.indexOf(e.target.value), 1);
     dispatch(changeCarModel(carModel));
-    dispatch(changeCarApi());
+
+    props.setCurrentPage(1);
+    dispatch(
+      changeCarApi({
+        priceRange: props.priceRange,
+        makeYear: props.multiRangeModel,
+        page: 1,
+      })
+    );
   };
 
   function isSelected(value) {
@@ -87,7 +125,12 @@ export function FilterBar({
 
       setSelectedPersons(selectedPersonsUpdated);
       dispatch(changeMakeData(selectedPersonsUpdated));
-      dispatch(changeCarApi());
+      dispatch(
+        changeCarApi({
+          priceRange: props.priceRange,
+          makeYear: props.multiRangeModel,
+        })
+      );
     } else {
       handleDeselect(value);
     }
@@ -96,14 +139,40 @@ export function FilterBar({
 
   function handleDeselect(value) {
     const selectedPersonsUpdated = selectedPersons.filter((el) => el !== value);
-    console.log("new", selectedPersonsUpdated);
+
     setSelectedPersons(selectedPersonsUpdated);
     dispatch(changeMakeData(selectedPersonsUpdated));
-    dispatch(changeCarApi());
+    props.setCurrentPage(1);
+    dispatch(
+      changeCarApi({
+        priceRange: props.priceRange,
+        makeYear: props.multiRangeModel,
+        page: 1,
+      })
+    );
     setIsOpen(true);
   }
 
-  useEffect(() => {}, []);
+  function changealldata() {
+    props.setTotoalCar(totalcarnumber);
+
+    props.setCarData(cars);
+    props.setTotalpage(totalpage);
+    setApiData({
+      bodytype: bodytype,
+      exteriorcolor: exteriorcolor,
+      interiorcolor: interiorcolor,
+      transmission: transmission,
+      drivetrain: drivetrain,
+      fueltype: fueltype,
+      features: features,
+    });
+    setModeldata(model);
+  }
+
+  useEffect(() => {
+    cars.length > 0 ? changealldata() : "";
+  }, [cars]);
 
   return (
     <section className=" w-[312px] border-[2px]  bg-white h-fit sm:block  xs:hidden pb-[16px]">
@@ -263,10 +332,10 @@ export function FilterBar({
           <aside className="uppercase">model</aside>
           <div
             className={`${
-              showmore ? "h-auto" : "h-[211px]"
+              showmore ? "h-auto" : "h-[200px]"
             } flex flex-col gap-[14px]  overflow-hidden`}
           >
-            {Object.keys(model).map((key, index) => {
+            {Object.keys(modeldata).map((key, index) => {
               return (
                 <section
                   className="flex items-center justify-start gap-[10px]"
@@ -280,7 +349,7 @@ export function FilterBar({
                     className="w-[20px] h-[20px]"
                   />
 
-                  <label className="uppercase font-[500] text-[15px] leading-[20px]">{`${key} (${model[key]})  `}</label>
+                  <label className="uppercase font-[500] text-[15px] leading-[20px]">{`${key} (${modeldata[key]})  `}</label>
                 </section>
               );
             })}
@@ -307,10 +376,12 @@ export function FilterBar({
                 Price
               </span>
               <span className="text-[16px] leading-[24px]  text-[#28293D] font-[600]">
-                {multiRange[0] == 0 &&
-                multiRange[multiRange.length - 1] == 100000
+                {props.priceRange[0] == 0 &&
+                props.priceRange[props.priceRange.length - 1] == 100000
                   ? `Any`
-                  : `${multiRange[0]}-${multiRange[multiRange.length - 1]}`}
+                  : `${props.priceRange[0]}-${
+                      props.priceRange[props.priceRange.length - 1]
+                    }`}
               </span>
             </div>
             <div>
@@ -321,8 +392,8 @@ export function FilterBar({
                 allowCross={false}
                 min={0}
                 max={100000}
-                onChange={(e) => setMultiRange(e)}
-                defaultValue={multiRange}
+                onChange={(e) => changePrice(e)}
+                defaultValue={props.priceRange}
               />
             </div>
             <div className="flex justify-between items-center">
@@ -341,11 +412,11 @@ export function FilterBar({
                 Make Year
               </span>
               <span className="text-[16px] leading-[24px]  text-[#28293D] font-[600]">
-                {multiRangeModel[0] == 1990 &&
-                multiRangeModel[multiRangeModel.length - 1] == 2021
+                {props.multiRangeModel[0] == 1990 &&
+                props.multiRangeModel[props.multiRangeModel.length - 1] == 2021
                   ? `Any`
-                  : `${multiRangeModel[0]}-${
-                      multiRangeModel[multiRangeModel.length - 1]
+                  : `${props.multiRangeModel[0]}-${
+                      props.multiRangeModel[props.multiRangeModel.length - 1]
                     }`}
               </span>
             </div>
@@ -356,8 +427,8 @@ export function FilterBar({
                 allowCross={true}
                 min={1990}
                 max={2021}
-                onChange={(e) => setMultiRangeModel(e)}
-                defaultValue={multiRangeModel}
+                onChange={(e) => changeMakeYear(e)}
+                defaultValue={props.multiRangeModel}
               />
             </div>
             <div className="flex justify-between items-center">
@@ -405,21 +476,33 @@ export function FilterBar({
       <div className="line w-[100%] h-[2px] bg-[#E4E4EB] mt-[16px] mb-[16px]" />
 
       <Dropdown
+        priceRange={props.priceRange}
+        multiRangeModel={props.multiRangeModel}
         apidata={["BODY STYLE", "EXTERIOR COLOR", "INTERIOR COLOR"]}
-        bodydata={[bodytype, exteriorcolor, interiorcolor]}
+        bodydata={[
+          apiData.bodytype,
+          apiData.exteriorcolor,
+          apiData.interiorcolor,
+        ]}
         name={"Style"}
+        setCurrentPage={props.setCurrentPage()}
         key={1}
       />
 
       {/* , "DRIVE TRAIN"" */}
       <div className="line w-[100%] h-[2px] bg-[#E4E4EB] mt-[16px] mb-[16px]" />
       <Dropdown
+        multiRangeModel={props.multiRangeModel}
         apidata={["TRANSMISSION", "DRIVE TRAIN", "FUEL TYPE"]}
-        bodydata={[transmission, drivetrain, fueltype]}
+        bodydata={[apiData.transmission, apiData.drivetrain, apiData.fueltype]}
         name={"Performance"}
+        priceRange={props.priceRange}
+        setCurrentPage={props.setCurrentPage()}
       />
       <div className="line w-[100%] h-[2px] bg-[#E4E4EB] mt-[16px] mb-[16px]" />
       <Dropdown
+        multiRangeModel={props.multiRangeModel}
+        priceRange={props.priceRange}
         apidata={[
           "INTERIOR FEATURES",
           "TECHNOLOGY FEATURES",
@@ -427,12 +510,14 @@ export function FilterBar({
           "EXTERIOR FEATURES",
           "Other",
         ]}
+        setCurrentPage={props.setCurrentPage()}
         bodydata={[
-          features["Interior Features"] && features["Interior Features"],
-          features["Technology Features"],
-          features["Safety Features"],
-          features["Safety Features"],
-          features["Others"],
+          apiData.features["Interior Features"] &&
+            apiData.features["Interior Features"],
+          apiData.features["Technology Features"],
+          apiData.features["Safety Features"],
+          apiData.features["Safety Features"],
+          apiData.features["Others"],
         ]}
         name={"Feature"}
       />

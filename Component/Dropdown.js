@@ -12,7 +12,14 @@ import {
   chanageFeatures,
   chanageInteriorColor,
 } from "../redux/slice/homePageSlices";
-export default function Dropdown({ apidata, bodydata, name }) {
+export default function Dropdown({
+  apidata,
+  bodydata,
+  name,
+  priceRange,
+  multiRangeModel,
+}) {
+  // console.log("bodydata,", bodydata);
   const {
     selectBodyType,
     selectExteriorColor,
@@ -24,14 +31,12 @@ export default function Dropdown({ apidata, bodydata, name }) {
   } = useSelector((state) => state.homePageSlice);
   const [Dropdown, setDropdown] = useState(false);
 
-  console.log("apidata", apidata, "body_type", bodydata, "name", name);
+  // console.log("apidata", apidata, "body_type", bodydata, "name", name);
   const dispatch = useDispatch();
   const changeDropdown = () => {
     setDropdown(!Dropdown);
   };
   const handleSelect = (e) => {
-    console.log(e.target.name);
-
     // e.target.name == "BODY STYLE";
 
     switch (e.target.name) {
@@ -42,9 +47,15 @@ export default function Dropdown({ apidata, bodydata, name }) {
           ? bodyStyle.push(e.target.value)
           : bodyStyle.splice(bodyStyle.indexOf(e.target.value), 1);
 
-        console.log(bodyStyle);
         dispatch(changeBodyType(bodyStyle));
-        dispatch(changeCarApi());
+        setCurrentPage(1);
+        dispatch(
+          changeCarApi({
+            priceRange: props.priceRange,
+            makeYear: props.multiRangeModel,
+            page: 1,
+          })
+        );
 
         break;
       case "EXTERIOR COLOR":
@@ -55,7 +66,14 @@ export default function Dropdown({ apidata, bodydata, name }) {
           : exteriorColor.splice(exteriorColor.indexOf(e.target.value), 1);
 
         dispatch(changeExteriorColor(exteriorColor));
-        dispatch(changeCarApi());
+        setCurrentPage(1);
+        dispatch(
+          changeCarApi({
+            priceRange: props.priceRange,
+            makeYear: props.multiRangeModel,
+            page: 1,
+          })
+        );
 
         break;
       case "INTERIOR COLOR":
@@ -66,7 +84,14 @@ export default function Dropdown({ apidata, bodydata, name }) {
           : interiorColor.splice(interiorColor.indexOf(e.target.value), 1);
 
         dispatch(chanageInteriorColor(interiorColor));
-        dispatch(changeCarApi());
+        setCurrentPage(1);
+        dispatch(
+          changeCarApi({
+            priceRange: props.priceRange,
+            makeYear: props.multiRangeModel,
+            page: 1,
+          })
+        );
         break;
       case "TRANSMISSION":
         const transmission = [...selectTransmission];
@@ -76,7 +101,14 @@ export default function Dropdown({ apidata, bodydata, name }) {
           : transmission.splice(transmission.indexOf(e.target.value), 1);
 
         dispatch(chanageTransmission(transmission));
-        dispatch(changeCarApi());
+        setCurrentPage(1);
+        dispatch(
+          changeCarApi({
+            priceRange: props.priceRange,
+            makeYear: props.multiRangeModel,
+            page: 1,
+          })
+        );
         break;
       case "DRIVE TRAIN":
         const driveTrain = [...selectDriveTrain];
@@ -86,7 +118,14 @@ export default function Dropdown({ apidata, bodydata, name }) {
           : driveTrain.splice(driveTrain.indexOf(e.target.value), 1);
 
         dispatch(chanageDriveTrain(driveTrain));
-        dispatch(changeCarApi());
+        setCurrentPage(1);
+        dispatch(
+          changeCarApi({
+            priceRange: props.priceRange,
+            makeYear: props.multiRangeModel,
+            page: 1,
+          })
+        );
         break;
       case "FUEL TYPE":
         const fuelType = [...selectFuelType];
@@ -96,7 +135,14 @@ export default function Dropdown({ apidata, bodydata, name }) {
           : fuelType.splice(fuelType.indexOf(e.target.value), 1);
 
         dispatch(chanageFuelType(fuelType));
-        dispatch(changeCarApi());
+        setCurrentPage(1);
+        dispatch(
+          changeCarApi({
+            priceRange: props.priceRange,
+            makeYear: props.multiRangeModel,
+            page: 1,
+          })
+        );
         break;
       default:
         const features = [...selectFeatures];
@@ -106,7 +152,14 @@ export default function Dropdown({ apidata, bodydata, name }) {
           : features.splice(features.indexOf(e.target.value), 1);
 
         dispatch(chanageFeatures(features));
-        dispatch(changeCarApi());
+        setCurrentPage(1);
+        dispatch(
+          changeCarApi({
+            priceRange: props.priceRange,
+            makeYear: props.multiRangeModel,
+            page: 1,
+          })
+        );
     }
   };
 
