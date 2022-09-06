@@ -19,11 +19,11 @@ const details = ({ cars }) => {
   return (
     <>
       <Head>
-        <meta property="og-title" content={`${cars.make}`} />
-        <meta property="og-image" content={`${cars.photos[0]}`} />
-        <meta property="og-image:width" content={`300`} />
-        <meta property="og-image:height" content={`300`} />
-        <meta property="og-description" content="car delaer ship" />
+        <meta property="og:title" content={`${cars.make}`} />
+        <meta property="og:image" content={`${cars.photos[0]}`} />
+        <meta property="og:image:width" content={`300`} />
+        <meta property="og:image:height" content={`300`} />
+        <meta property="og:description" content="car delaer ship" />
       </Head>
       <HeaderComponent />
       <nav className="max-w-[1440px] px-[60px] py-[24px] bg-white flex justify-between ">
