@@ -6,6 +6,7 @@ import Image from "next/image";
 // import Image from ""
 // import Image from "next/dist/client/image";
 // import Image from "next/image";
+import Head from "next/head";
 import ImageGallery from "react-image-gallery";
 import { FooterComponent } from "../Component/Footer";
 const details = ({ cars }) => {
@@ -17,6 +18,13 @@ const details = ({ cars }) => {
   });
   return (
     <>
+      <Head>
+        <meta property="og-title" content={`${cars.make}`} />
+        <meta property="og-image" content={`${cars.photos[0]}`} />
+        <meta property="og-image:width" content={`300`} />
+        <meta property="og-image:height" content={`300`} />
+        <meta property="og-description" content="car delaer ship" />
+      </Head>
       <HeaderComponent />
       <nav className="max-w-[1440px] px-[60px] py-[24px] bg-white flex justify-between ">
         <div className="flex gap-[15px] items-start  ">
