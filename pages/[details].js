@@ -37,14 +37,7 @@ const details = ({ cars }) => {
             <span className="text-[32px] leading-[44px] font-[700] flex items-start">
               {`${cars.make} ${cars.model}`}{" "}
             </span>
-            <RWebShare
-              data={{
-                title: "Flamingos",
-              }}
-              onClick={() => console.log("shared successfully!")}
-            >
-              <button> share</button>
-            </RWebShare>
+
             <div className="flex flex-col gap-[10px]">
               <span className="text-[16px] leading-[14px] fomt-[400] text-[#8F90A6]">
                 {cars.dealership} •{cars.milage} Mileage • {cars.exterior_color}
@@ -54,6 +47,17 @@ const details = ({ cars }) => {
               </span>
             </div>
           </div>
+          <RWebShare
+            data={{
+              title: "Flamingos",
+            }}
+            onClick={() => console.log("shared successfully!")}
+          >
+            <button className="mt-[9px]  py-[6px] px-[16px] rounded-[10px]  bg-gradient-to-r from-[#FF8800] to-[#E63535] text-white">
+              {" "}
+              share
+            </button>
+          </RWebShare>
         </div>
         <div className="flex gap-[24px] items-start pt-[6px]">
           <aside className="flex justify-start items-center gap-[8px]">
