@@ -16,13 +16,14 @@ export function Sidebar(props) {
   const router = useRouter();
 
   const handlePageClick = (event) => {
-    props.setCurrentPage(event.selected + 1);
-    ref.current.state.selected = 5;
+    console.log("current page ", props.currentPage);
+    props.setCurrentPage(event.selected);
+
     dispatch(
       changeCarApi({
         priceRange: props.priceRange,
         makeYear: props.multiRangeModel,
-        page: event.selected + 1,
+        page: event.selected,
       })
     );
   };
@@ -30,7 +31,7 @@ export function Sidebar(props) {
   console.log("all ref", ref.current);
   useEffect(() => {
     // props.cardata && console.log("update");
-  }, [props.cardata]);
+  }, []);
   return (
     <>
       <div className="flex flex-col gap-[24px]  w-[100%]">
@@ -130,7 +131,7 @@ export function Sidebar(props) {
             marginPagesDisplayed={4}
             pageRangeDisplayed={5}
             onPageChange={handlePageClick}
-            // initialPage={currentPage}
+            forcePage={props.currentPage}
             // forcePage={currentPage}
             containerClassName={"flex gap-[8px] justify-center	 items-center"}
             pageClassName={

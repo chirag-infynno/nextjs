@@ -18,6 +18,7 @@ export default function Dropdown({
   name,
   priceRange,
   multiRangeModel,
+  setCurrentPage,
 }) {
   // console.log("bodydata,", bodydata);
   const {
@@ -48,11 +49,11 @@ export default function Dropdown({
           : bodyStyle.splice(bodyStyle.indexOf(e.target.value), 1);
 
         dispatch(changeBodyType(bodyStyle));
-        setCurrentPage(1);
+        setCurrentPage(0);
         dispatch(
           changeCarApi({
-            priceRange: props.priceRange,
-            makeYear: props.multiRangeModel,
+            priceRange: priceRange,
+            makeYear: multiRangeModel,
             page: 1,
           })
         );
@@ -66,11 +67,11 @@ export default function Dropdown({
           : exteriorColor.splice(exteriorColor.indexOf(e.target.value), 1);
 
         dispatch(changeExteriorColor(exteriorColor));
-        setCurrentPage(1);
+        setCurrentPage(0);
         dispatch(
           changeCarApi({
-            priceRange: props.priceRange,
-            makeYear: props.multiRangeModel,
+            priceRange: priceRange,
+            makeYear: multiRangeModel,
             page: 1,
           })
         );
@@ -84,11 +85,11 @@ export default function Dropdown({
           : interiorColor.splice(interiorColor.indexOf(e.target.value), 1);
 
         dispatch(chanageInteriorColor(interiorColor));
-        setCurrentPage(1);
+        setCurrentPage(0);
         dispatch(
           changeCarApi({
-            priceRange: props.priceRange,
-            makeYear: props.multiRangeModel,
+            priceRange: priceRange,
+            makeYear: multiRangeModel,
             page: 1,
           })
         );
@@ -101,11 +102,11 @@ export default function Dropdown({
           : transmission.splice(transmission.indexOf(e.target.value), 1);
 
         dispatch(chanageTransmission(transmission));
-        setCurrentPage(1);
+        setCurrentPage(0);
         dispatch(
           changeCarApi({
-            priceRange: props.priceRange,
-            makeYear: props.multiRangeModel,
+            priceRange: priceRange,
+            makeYear: multiRangeModel,
             page: 1,
           })
         );
@@ -118,11 +119,11 @@ export default function Dropdown({
           : driveTrain.splice(driveTrain.indexOf(e.target.value), 1);
 
         dispatch(chanageDriveTrain(driveTrain));
-        setCurrentPage(1);
+        setCurrentPage(0);
         dispatch(
           changeCarApi({
-            priceRange: props.priceRange,
-            makeYear: props.multiRangeModel,
+            priceRange: priceRange,
+            makeYear: multiRangeModel,
             page: 1,
           })
         );
@@ -135,11 +136,11 @@ export default function Dropdown({
           : fuelType.splice(fuelType.indexOf(e.target.value), 1);
 
         dispatch(chanageFuelType(fuelType));
-        setCurrentPage(1);
+        setCurrentPage(0);
         dispatch(
           changeCarApi({
-            priceRange: props.priceRange,
-            makeYear: props.multiRangeModel,
+            priceRange: priceRange,
+            makeYear: multiRangeModel,
             page: 1,
           })
         );
@@ -152,11 +153,11 @@ export default function Dropdown({
           : features.splice(features.indexOf(e.target.value), 1);
 
         dispatch(chanageFeatures(features));
-        setCurrentPage(1);
+        setCurrentPage(0);
         dispatch(
           changeCarApi({
-            priceRange: props.priceRange,
-            makeYear: props.multiRangeModel,
+            priceRange: priceRange,
+            makeYear: multiRangeModel,
             page: 1,
           })
         );

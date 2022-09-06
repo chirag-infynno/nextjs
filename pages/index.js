@@ -18,10 +18,10 @@ export default function Home(props) {
   const [totalCar, setTotoalCar] = useState(props.totalcarnumber);
   const [totalpage, setTotalpage] = useState(props.totalpage);
   const [priceRange, setPriceRange] = useState([0, 100000]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const loding = useSelector((state) => state.homePageSlice.loding);
 
-  useEffect(() => {}, [totalCar, cardata]);
+  useEffect(() => {}, []);
   return (
     <>
       <HeaderComponent />

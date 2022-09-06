@@ -60,6 +60,7 @@ export function FilterBar(props) {
   const [selectedPersons, setSelectedPersons] = useState([]);
 
   const changeCartype = (e) => {
+    props.setCurrentPage(0);
     const type = carType;
     let arr = e.target.checked
       ? [...type, e.target.value]
@@ -68,7 +69,7 @@ export function FilterBar(props) {
     arr.length > 0
       ? dispatch(changeCarTypeState(arr))
       : dispatch(changeCarTypeState(["used+car", "new+car"]));
-    props.setCurrentPage(1);
+
     dispatch(
       changeCarApi({
         priceRange: props.priceRange,
@@ -79,6 +80,7 @@ export function FilterBar(props) {
   };
 
   const changePrice = (e) => {
+    props.setCurrentPage(0);
     props.setPriceRange(e);
     dispatch(
       changeCarApi({ priceRange: e, makeYear: props.multiRangeModel, page: 1 })
@@ -87,6 +89,7 @@ export function FilterBar(props) {
   };
 
   const changeMakeYear = (e) => {
+    props.setCurrentPage(0);
     props.setMultiRangeModel(e);
     dispatch(
       changeCarApi({ priceRange: props.priceRange, makeYear: e, page: 1 })
@@ -94,6 +97,7 @@ export function FilterBar(props) {
     // changeCarApi({ priceRange: e, makeYear: multiRangeModel });
   };
   const changeModel = (e) => {
+    props.setCurrentPage(0);
     const carModel = [...selcetCarModel];
 
     e.target.checked
@@ -101,7 +105,6 @@ export function FilterBar(props) {
       : carModel.splice(carModel.indexOf(e.target.value), 1);
     dispatch(changeCarModel(carModel));
 
-    props.setCurrentPage(1);
     dispatch(
       changeCarApi({
         priceRange: props.priceRange,
@@ -142,7 +145,7 @@ export function FilterBar(props) {
 
     setSelectedPersons(selectedPersonsUpdated);
     dispatch(changeMakeData(selectedPersonsUpdated));
-    props.setCurrentPage(1);
+    props.setCurrentPage(0);
     dispatch(
       changeCarApi({
         priceRange: props.priceRange,
@@ -485,7 +488,7 @@ export function FilterBar(props) {
           apiData.interiorcolor,
         ]}
         name={"Style"}
-        setCurrentPage={props.setCurrentPage()}
+        setCurrentPage={props.setCurrentPage}
         key={1}
       />
 
@@ -497,7 +500,7 @@ export function FilterBar(props) {
         bodydata={[apiData.transmission, apiData.drivetrain, apiData.fueltype]}
         name={"Performance"}
         priceRange={props.priceRange}
-        setCurrentPage={props.setCurrentPage()}
+        setCurrentPage={props.setCurrentPage}
       />
       <div className="line w-[100%] h-[2px] bg-[#E4E4EB] mt-[16px] mb-[16px]" />
       <Dropdown
@@ -510,7 +513,7 @@ export function FilterBar(props) {
           "EXTERIOR FEATURES",
           "Other",
         ]}
-        setCurrentPage={props.setCurrentPage()}
+        setCurrentPage={props.setCurrentPage}
         bodydata={[
           apiData.features["Interior Features"] &&
             apiData.features["Interior Features"],
